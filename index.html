@@ -632,6 +632,39 @@ body.has-dock footer { padding-bottom: calc(3rem + 5.5rem); }
   .contact h2 span { animation: rec 1.3s steps(2, jump-none) infinite; }
   @keyframes rec { 50% { opacity: .15; } }
 }
+/* Formulario de contratación */
+.hire { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1rem; margin-top: 1.75rem; }
+.field { display: grid; gap: .4rem; min-width: 0; }
+.field.wide, .hire-actions, .hire .fine { grid-column: 1 / -1; }
+.field label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.field input, .field select, .field textarea {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  padding: .7rem .8rem; border-radius: 0; transition: border-color .2s;
+}
+.field textarea { resize: vertical; min-height: 5.5rem; }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--muted); }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.hire-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.contact .hire .btn { margin-top: 0; }
+.hire .fine { color: var(--muted); font-size: .88rem; }
+@media (max-width: 520px) { .hire { grid-template-columns: minmax(0, 1fr); } }
+.tool-btns { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+.contact .tool-btns .btn { margin-top: 0; padding: .7rem 1rem; font-size: .74rem; }
+
+/* Licencias de beats */
+.lic { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.lic h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: .95; text-transform: uppercase; }
+.lic-head p { color: var(--muted); max-width: 58ch; margin-top: .75rem; }
+.lic-grid { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--fg); }
+.lic-grid li { display: flex; flex-direction: column; align-items: flex-start; gap: .7rem; padding: 1.5rem 1.5rem 1.75rem 0; }
+.lic-grid li + li { padding-left: 1.5rem; border-left: 1px solid var(--line); }
+.lic-grid h4 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 2rem; line-height: 1; text-transform: uppercase; }
+.lic-grid p { color: var(--muted); margin: 0; flex: 1; }
+@media (max-width: 800px) {
+  .lic-grid { grid-template-columns: minmax(0, 1fr); }
+  .lic-grid li, .lic-grid li + li { padding: 1.5rem 0; border-left: 0; border-bottom: 1px solid var(--line); }
+}
+
 .rows { display: grid; border-top: 1px solid var(--fg); }
 .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem 1rem; align-items: center; padding-block: 1.1rem; border-bottom: 1px solid var(--line); transition: padding-left .3s var(--ease); }
 .row:hover { padding-left: .5rem; }
@@ -965,6 +998,33 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
           <a class="btn solid" href="https://soundcloud.com/boness6" target="_blank" rel="noopener">Ver el catálogo de beats <span class="arr" aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
+
+      <div class="lic" id="licencias">
+        <div class="lic-head">
+          <h3>Licencias de beats</h3>
+          <p>Elige cómo quieres usar un beat. Cotiza por WhatsApp y recibe el precio y las condiciones por escrito.</p>
+        </div>
+        <ul class="lic-grid">
+          <li>
+            <span class="label">Uso compartido</span>
+            <h4>No exclusiva</h4>
+            <p>Usas el beat en tu canción. El mismo beat puede seguir en el catálogo para otros artistas.</p>
+            <button class="btn" type="button" data-quote="no-exclusiva">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li>
+            <span class="label">Solo tuyo</span>
+            <h4>Exclusiva</h4>
+            <p>El beat sale del catálogo y queda solo para ti.</p>
+            <button class="btn" type="button" data-quote="exclusiva">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li>
+            <span class="label">Para mezclar</span>
+            <h4>Stems y mezcla</h4>
+            <p>Las pistas separadas del beat, para que tu ingeniero o tú lo mezclen con tu voz.</p>
+            <button class="btn" type="button" data-quote="stems">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -1094,13 +1154,66 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
         <div>
           <span class="label">Contratación · beats · producción</span>
           <h2>Hablemos<span>.</span></h2>
-          <a class="btn solid" href="https://wa.me/51944310246" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr" aria-hidden="true">&rarr;</span></a>
+          <form class="hire" id="hire" novalidate>
+            <div class="field">
+              <label for="h-type">Qué necesitas</label>
+              <select id="h-type">
+                <option value="set">Un set de DJ</option>
+                <option value="prod">Producción musical</option>
+                <option value="beat">Comprar un beat</option>
+                <option value="otro">Otra cosa</option>
+              </select>
+            </div>
+            <div class="field" id="h-lic-wrap" hidden>
+              <label for="h-lic">Licencia</label>
+              <select id="h-lic">
+                <option value="">Aún no sé</option>
+                <option value="no-exclusiva">No exclusiva</option>
+                <option value="exclusiva">Exclusiva</option>
+                <option value="stems">Stems y mezcla</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="h-name">Tu nombre</label>
+              <input id="h-name" type="text" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="h-date">Fecha</label>
+              <input id="h-date" type="date">
+            </div>
+            <div class="field">
+              <label for="h-city">Ciudad o lugar</label>
+              <input id="h-city" type="text" autocomplete="address-level2">
+            </div>
+            <div class="field wide">
+              <label for="h-msg">Detalles (duración, presupuesto, referencias)</label>
+              <textarea id="h-msg" rows="3"></textarea>
+            </div>
+            <div class="hire-actions">
+              <button class="btn solid" type="submit">Abrir WhatsApp <span class="arr" aria-hidden="true">&rarr;</span></button>
+              <button class="btn" type="button" id="h-copy">Copiar mensaje</button>
+            </div>
+            <p class="fine" id="h-status" aria-live="polite">Se abre WhatsApp con el mensaje ya escrito. Esta página no guarda lo que escribes.</p>
+          </form>
         </div>
         <div class="rows">
           <div class="row">
             <span class="label">Correo</span>
             <a class="val" id="v-mail" href="mailto:mdkrvzy@gmail.com">mdkrvzy@gmail.com</a>
             <button class="copy" type="button" id="c-mail" data-src="v-mail">Copiar</button>
+          </div>
+          <div class="row">
+            <span class="label">WhatsApp</span>
+            <a class="val" id="v-tel" href="https://wa.me/51944310246" target="_blank" rel="noopener">+51 944 310 246</a>
+            <button class="copy" type="button" id="c-tel" data-src="v-tel">Copiar</button>
+          </div>
+          <div class="row tools">
+            <span class="label">Llévalo contigo</span>
+            <div class="tool-btns">
+              <a class="btn" href="press-kit/MD-KTRL-press-kit.pdf" download>Press kit · PDF 18 MB</a>
+              <a class="btn" href="mdktrl.vcf" download>Guardar contacto</a>
+              <button class="btn" type="button" id="share"><span id="share-t">Compartir esta página</span></button>
+            </div>
           </div>
           <div class="row social">
             <span class="label">Redes</span>
@@ -1326,6 +1439,60 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
       dock.hidden = true; document.body.classList.remove('has-dock');
       clearTimeout(failTimer); clearTimeout(nudge);
       current = null; playing = false; sync();
+    });
+  }
+
+  /* Contratar: arma el mensaje y abre WhatsApp */
+  var hire = document.getElementById('hire');
+  if (hire) {
+    var fld = function (id) { return document.getElementById(id); };
+    var optText = function (sel) { return sel.options[sel.selectedIndex].text; };
+    var buildMsg = function () {
+      var t = MDK.t, type = fld('h-type'), lic = fld('h-lic');
+      var lines = [t('Hola MD KTRL, te escribo desde tu página web.'), t('Busco:') + ' ' + optText(type)];
+      if (type.value === 'beat' && lic.value) lines.push(t('Licencia:') + ' ' + optText(lic));
+      var date = fld('h-date').value ? fld('h-date').value.split('-').reverse().join('/') : '';
+      [['Nombre:', fld('h-name').value], ['Fecha:', date], ['Ciudad o lugar:', fld('h-city').value], ['Detalles:', fld('h-msg').value]]
+        .forEach(function (p) { var v = p[1].trim(); if (v) lines.push(t(p[0]) + ' ' + v); });
+      return lines.join('\n');
+    };
+    var syncLic = function () { fld('h-lic-wrap').hidden = fld('h-type').value !== 'beat'; };
+    var say = function (txt) { fld('h-status').textContent = MDK.t(txt); };
+    fld('h-type').addEventListener('change', syncLic);
+    hire.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var url = 'https://wa.me/51944310246?text=' + encodeURIComponent(buildMsg());
+      if (!window.open(url, '_blank', 'noopener')) window.location.href = url;
+      say('Se abrió WhatsApp con tu mensaje. Revísalo y envíalo desde ahí.');
+    });
+    fld('h-copy').addEventListener('click', function () {
+      var msg = buildMsg();
+      var ok = function () { say('Mensaje copiado.'); };
+      var no = function () { fld('h-msg').value = msg; say('No se pudo copiar. El mensaje quedó en el campo de detalles.'); };
+      try { navigator.clipboard.writeText(msg).then(ok, no); } catch (err) { no(); }
+    });
+    document.querySelectorAll('[data-quote]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        fld('h-type').value = 'beat'; syncLic(); fld('h-lic').value = b.getAttribute('data-quote');
+        fld('hire').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        setTimeout(function () { fld('h-name').focus({ preventScroll: true }); }, reduce ? 0 : 500);
+      });
+    });
+  }
+
+  /* Compartir la página: menú del sistema si existe; si no, copia el enlace */
+  var shareBtn = document.getElementById('share');
+  if (shareBtn) {
+    var shareT = document.getElementById('share-t');
+    var flash = function (txt) {
+      shareT.textContent = MDK.t(txt);
+      setTimeout(function () { shareT.textContent = MDK.t('Compartir esta página'); }, 1800);
+    };
+    shareBtn.addEventListener('click', function () {
+      var url = location.href.split('#')[0];
+      if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function () {}); return; }
+      try { navigator.clipboard.writeText(url).then(function () { flash('Enlace copiado'); }, function () { flash('No se pudo copiar'); }); }
+      catch (err) { flash('No se pudo copiar'); }
     });
   }
 
