@@ -11,9 +11,38 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="MD KTRL · Productor y DJ">
 <meta property="og:description" content="Hip hop, trap y música electrónica desde Tacna, Perú. Beats, producción y sets en vivo.">
-<meta property="og:image" content="og.jpg">
+<meta property="og:image" content="https://mdkproject.github.io/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MD KTRL, productor y DJ de Tacna, Perú">
+<meta property="og:url" content="https://mdkproject.github.io/">
+<meta property="og:site_name" content="MD KTRL">
+<link rel="canonical" href="https://mdkproject.github.io/">
 <meta property="og:locale" content="es_PE">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MD KTRL · Productor y DJ">
+<meta name="twitter:description" content="Hip hop, trap y música electrónica desde Tacna, Perú. Beats, producción y sets en vivo.">
+<meta name="twitter:image" content="https://mdkproject.github.io/og.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "MD KTRL",
+  "alternateName": "Marcelo López",
+  "url": "https://mdkproject.github.io/",
+  "image": "https://mdkproject.github.io/og.jpg",
+  "description": "Productor y DJ de Tacna, Perú. Hip hop, trap y música electrónica.",
+  "genre": ["Hip hop", "Trap", "Electronic"],
+  "foundingLocation": { "@type": "Place", "name": "Tacna, Perú" },
+  "sameAs": [
+    "https://www.instagram.com/m1ndktrl/",
+    "https://www.tiktok.com/@m1ndktrl",
+    "https://www.youtube.com/@m1ndktrl",
+    "https://www.mixcloud.com/DMON_TRACKS/",
+    "https://soundcloud.com/boness6"
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Syncopate:wght@700&display=swap">
@@ -454,11 +483,11 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
 .play .ico { width: 1.1rem; height: 1.1rem; }
 .play:hover { background: var(--coral); border-color: var(--coral); }
 .play .i-q, .play .t-pause { display: none; }
-.play[aria-pressed="true"] { background: transparent; color: var(--accent); }
-.play[aria-pressed="true"]:hover { border-color: var(--coral); color: var(--coral); }
-.play[aria-pressed="true"] .i-p, .play[aria-pressed="true"] .t-play { display: none; }
-.play[aria-pressed="true"] .i-q { display: block; }
-.play[aria-pressed="true"] .t-pause { display: inline; }
+.play[data-playing="true"] { background: transparent; color: var(--accent); }
+.play[data-playing="true"]:hover { border-color: var(--coral); color: var(--coral); }
+.play[data-playing="true"] .i-p, .play[data-playing="true"] .t-play { display: none; }
+.play[data-playing="true"] .i-q { display: block; }
+.play[data-playing="true"] .t-pause { display: inline; }
 .play.big {
   margin: 0; width: clamp(4rem, 9vw, 5.5rem); height: clamp(4rem, 9vw, 5.5rem); padding: 0; justify-content: center;
   border: 0; border-radius: 50%; background: var(--dye); color: #17110a; box-shadow: 0 10px 30px -8px var(--shadow);
@@ -466,7 +495,7 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
 .play.big .ico { width: 42%; height: 42%; }
 .play.big .t-play, .play.big .t-pause { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .play.big:hover { background: var(--dye); transform: scale(1.07); }
-.play.big[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.play.big[data-playing="true"] { background: var(--fg); color: var(--bg); }
 
 /* Destacado */
 #destacado { --dr: -16rem; --db: -12rem; --dp: 30deg; }
@@ -494,8 +523,8 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
 }
 .dock-play { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 1.2rem; }
 .dock-play .i-q { display: none; }
-.dock-play[aria-pressed="true"] .i-p { display: none; }
-.dock-play[aria-pressed="true"] .i-q { display: block; }
+.dock-play[data-playing="true"] .i-p { display: none; }
+.dock-play[data-playing="true"] .i-q { display: block; }
 .dock-play:hover { background: var(--coral); border-color: var(--coral); }
 .dock-close { width: 2.25rem; height: 2.25rem; font-size: 1.4rem; line-height: 1; color: var(--muted); }
 .dock-close:hover { color: var(--fg); border-color: var(--muted); }
@@ -807,7 +836,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
       <article class="spot-card">
         <div class="spot-art">
           <img src="img/12.webp" alt="Portada del álbum 12 de MD KTRL" width="540" height="540" loading="lazy">
-          <button class="play big" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+          <button class="play big" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
         </div>
         <div class="spot-body">
           <span class="label">Club edit · <b>12</b></span>
@@ -880,8 +909,8 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>Paisajes electrónicos cargados de emociones complejas. Texturas envolventes y ritmos sutiles que generan tensión y calma a la vez, en un viaje introspectivo que se queda en la memoria.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" data-title="12" data-artist="MD KTRL" data-cover="img/12.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
-                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Soledad · Club Edit</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" data-title="12" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Soledad · Club Edit</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -899,7 +928,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>Alterna calma, esperanza y alegría con pasajes de tensión y emociones más oscuras. Un rango amplio, pensado para el oyente y para el artista que busca base.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/rest-in-beats" data-title="Rest in Beats" data-artist="Bness" data-cover="img/rest-in-beats.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/rest-in-beats" data-title="Rest in Beats" data-artist="Bness" data-cover="img/rest-in-beats.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/boness6/sets/rest-in-beats" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -917,7 +946,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>La cara más suave del trap. Melodías dulces, atmósferas etéreas y percusiones delicadas que transmiten calma, amor y nostalgia.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" data-title="Raw Tapes: Pluggnb" data-artist="Bness" data-cover="img/raw-tapes-pluggnb.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" data-title="Raw Tapes: Pluggnb" data-artist="Bness" data-cover="img/raw-tapes-pluggnb.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -935,7 +964,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>Nació sin plan, de la improvisación y de explorar el sampleo en la electrónica. Cuatro tracks de esencia house hechos para el movimiento, el baile y las sonrisas.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" data-title="La Receta" data-artist="MD KTRL" data-cover="img/la-receta.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" data-title="La Receta" data-artist="MD KTRL" data-cover="img/la-receta.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -968,7 +997,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>Electrónica oscura y atmosférica. Paisajes sonoros densos, con texturas y ritmos envolventes. Precisión técnica y emoción cruda, con tensión y misterio de principio a fin.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" data-title="13" data-artist="MD KTRL" data-cover="img/13.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" data-title="13" data-artist="MD KTRL" data-cover="img/13.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -986,7 +1015,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <div class="more">
               <p>Álbum boom bap basado en el sampleo, de atmósfera mística y oscura con destellos de luz y delicadeza. Cada beat está pensado para conectar con artistas del género.</p>
               <div class="links">
-                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/key" data-title="Key" data-artist="Bness" data-cover="img/key.webp" aria-pressed="false"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/key" data-title="Key" data-artist="Bness" data-cover="img/key.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
                 <a class="listen" href="https://soundcloud.com/boness6/sets/key" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
               </div>
             </div>
@@ -1260,7 +1289,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
 
 <div class="dock" id="dock" role="region" aria-label="Reproductor" hidden>
   <div class="dock-in">
-    <button class="dock-play" id="dock-toggle" type="button" aria-pressed="false" aria-label="Reproducir">
+    <button class="dock-play" id="dock-toggle" type="button" aria-label="Reproducir">
       <svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg>
     </button>
     <div class="dock-info"><b id="dock-title">MD KTRL</b><span class="label" id="dock-artist" aria-live="polite"></span></div>
@@ -1578,10 +1607,12 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
 
     var sync = function () {
       document.querySelectorAll('.play[data-sc]').forEach(function (b) {
-        b.setAttribute('aria-pressed', String(!!current && playing && b.getAttribute('data-sc') === current.url));
+        var on = !!current && playing && b.getAttribute('data-sc') === current.url;
+        b.setAttribute('data-playing', String(on));
+        b.setAttribute('aria-label', MDK.t(on ? 'Pausar' : 'Reproducir') + ' ' + (b.getAttribute('data-title') || ''));
       });
-      dToggle.setAttribute('aria-pressed', String(playing));
-      dToggle.setAttribute('aria-label', MDK.t(playing ? 'Pausar' : 'Reproducir'));
+      dToggle.setAttribute('data-playing', String(playing));
+      dToggle.setAttribute('aria-label', MDK.t(playing ? 'Pausar' : 'Reproducir') + (current ? ' ' + current.title : ''));
       document.body.classList.toggle('is-playing', playing);
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
     };
@@ -1678,6 +1709,7 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
       clearTimeout(failTimer); clearTimeout(nudge);
       current = null; playing = false; sync();
     });
+    sync();
   }
 
   /* Contratar: arma el mensaje y abre WhatsApp */
