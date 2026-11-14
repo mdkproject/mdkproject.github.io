@@ -11,9 +11,38 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="MD KTRL · Productor y DJ">
 <meta property="og:description" content="Hip hop, trap y música electrónica desde Tacna, Perú. Beats, producción y sets en vivo.">
-<meta property="og:image" content="og.jpg">
+<meta property="og:image" content="https://mdkproject.github.io/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MD KTRL, productor y DJ de Tacna, Perú">
+<meta property="og:url" content="https://mdkproject.github.io/">
+<meta property="og:site_name" content="MD KTRL">
+<link rel="canonical" href="https://mdkproject.github.io/">
 <meta property="og:locale" content="es_PE">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MD KTRL · Productor y DJ">
+<meta name="twitter:description" content="Hip hop, trap y música electrónica desde Tacna, Perú. Beats, producción y sets en vivo.">
+<meta name="twitter:image" content="https://mdkproject.github.io/og.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "MD KTRL",
+  "alternateName": "Marcelo López",
+  "url": "https://mdkproject.github.io/",
+  "image": "https://mdkproject.github.io/og.jpg",
+  "description": "Productor y DJ de Tacna, Perú. Hip hop, trap y música electrónica.",
+  "genre": ["Hip hop", "Trap", "Electronic"],
+  "foundingLocation": { "@type": "Place", "name": "Tacna, Perú" },
+  "sameAs": [
+    "https://www.instagram.com/m1ndktrl/",
+    "https://www.tiktok.com/@m1ndktrl",
+    "https://www.youtube.com/@m1ndktrl",
+    "https://www.mixcloud.com/DMON_TRACKS/",
+    "https://soundcloud.com/boness6"
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&family=Syncopate:wght@700&display=swap">
@@ -31,6 +60,8 @@
   --accent: #f1a83c;      /* tie-dye ámbar */
   --coral: #ec917f;       /* tie-dye salmón */
   --silver: #c3c6c8;      /* papel aluminio */
+  --d-amber: #f1a83c; --d-coral: #ec917f; --d-silver: #b9bdc0; --d-dark: #0b0b0c; /* tinte del tie-dye */
+  --dye-op: .18;
   --accent-ink: #17110a;
   --wave: #3b3c3f;
   --on-photo: #ffffff;
@@ -54,6 +85,7 @@
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
+    --d-amber: #f0ad4d; --d-coral: #ee9a8a; --d-silver: #c7cacd; --d-dark: #3a3d42; --dye-op: .24;
     --bg: #ebecec; --bg-2: #dfe1e2; --fg: #0e0e10; --muted: #54575b; --line: #c4c7ca;
     --accent: #9a5800; --coral: #ad4436; --silver: #5d6166; --accent-ink: #ffffff; --wave: #b8bbbf;
     --shadow: rgba(0, 0, 0, .28);
@@ -65,6 +97,7 @@
   }
 }
 :root[data-theme="light"] {
+  --d-amber: #f0ad4d; --d-coral: #ee9a8a; --d-silver: #c7cacd; --d-dark: #3a3d42; --dye-op: .24;
   --bg: #ebecec; --bg-2: #dfe1e2; --fg: #0e0e10; --muted: #54575b; --line: #c4c7ca;
   --accent: #9a5800; --coral: #ad4436; --silver: #5d6166; --accent-ink: #ffffff; --wave: #b8bbbf;
   --shadow: rgba(0, 0, 0, .28);
@@ -98,6 +131,37 @@ h1, h2, h3, p { margin: 0; }
 h2, h3 { text-wrap: balance; }
 img { display: block; max-width: 100%; }
 .glyph { display: block; fill: currentColor; }
+
+/* Tie-dye: anillos de tinte que se mezclan, deformados por un filtro de ruido y con los pliegues radiales de la tela anudada.
+   Es la mancha de fondo (::after) de cada sección; la portada no lleva. Posición y ángulo salen de --dl/--dr/--dt/--db/--dp.
+   Mientras suena un track (body.is-playing) las manchas giran muy despacio; con el scroll se desplazan un poco. */
+section::after {
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  width: min(44rem, 120vw); aspect-ratio: 1;
+  left: var(--dl, auto); right: var(--dr, auto); top: var(--dt, auto); bottom: var(--db, auto);
+  opacity: var(--dye-op);
+  background:
+    repeating-conic-gradient(from var(--dp, 8deg) at 46% 54%, transparent 0 13deg, rgb(0 0 0 / .3) 13deg 14.4deg),
+    repeating-radial-gradient(circle at 46% 54%,
+      var(--d-amber) 0%, var(--d-coral) 7%, var(--d-coral) 9%, var(--d-dark) 12%, var(--d-silver) 15%,
+      var(--d-amber) 19%, var(--d-amber) 21%, var(--d-coral) 25%, var(--d-dark) 28%, var(--d-amber) 30%);
+  filter: url(#dye-warp);
+  -webkit-mask-image: radial-gradient(circle closest-side, #000 50%, transparent 100%);
+  mask-image: radial-gradient(circle closest-side, #000 50%, transparent 100%);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  section::after { animation: dye-drift 140s linear infinite paused; }
+  body.is-playing section::after { animation-play-state: running; }
+  @keyframes dye-drift { to { rotate: 360deg; } }
+  @supports (animation-timeline: view()) {
+    section::after {
+      animation: dye-drift 140s linear infinite paused, dye-slide linear both;
+      animation-timeline: auto, view();
+    }
+    @keyframes dye-slide { from { translate: 0 6rem; } to { translate: 0 -6rem; } }
+  }
+}
 
 .wrap {
   max-width: 1240px;
@@ -138,6 +202,15 @@ img { display: block; max-width: 100%; }
 .top nav a.cta { color: var(--accent-ink); background: var(--accent); padding: .45rem .8rem; transition: background-color .25s; }
 .top nav a.cta:hover { background: var(--coral); }
 @media (max-width: 900px) { .top nav a:not(.cta) { display: none; } }
+
+/* Selector de idioma */
+.lang { display: inline-flex; border: 1px solid var(--line); }
+.lang button {
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; padding: .4rem .55rem; cursor: pointer;
+  background: transparent; color: var(--muted); border: 0; transition: background-color .2s, color .2s;
+}
+.lang button:hover { color: var(--fg); }
+.lang button[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
 
 /* Botones: el relleno barre de izquierda a derecha */
 .btn {
@@ -182,40 +255,16 @@ img { display: block; max-width: 100%; }
 .tagline { font-size: clamp(1.15rem, 2vw, 1.45rem); line-height: 1.35; max-width: 32ch; }
 .actions { display: flex; flex-wrap: wrap; gap: .75rem; }
 
-/* Retrato: se ve el rostro; el MD KTRL enmascarado está escondido debajo.
-   El cursor deja un rastro de humo que lo deja ver unos instantes y se desvanece. Un clic o un toque lo revela completo. */
-@property --r { syntax: "<length>"; inherits: true; initial-value: 0px; }
+/* Retrato: solo la foto de perfil, sin tie-dye detrás */
 .portrait {
-  --r: 0px; --cx: 50%; --cy: 40%;
   position: relative; margin: 0; aspect-ratio: 4 / 5; max-width: 100%; overflow: hidden;
-  background: var(--bg-2); border: 1px solid var(--line); cursor: crosshair;
-  transition: --r .6s var(--ease);
-  -webkit-tap-highlight-color: transparent;
+  background: var(--bg-2); border: 1px solid var(--line);
 }
-.portrait.open { cursor: pointer; transition-duration: .9s; }
 .portrait img {
   width: 100%; height: 100%; object-fit: cover; object-position: 55% 28%;
   transform: translate(calc(var(--px, 0) * -12px), calc(var(--py, 0) * -12px)) scale(1.08);
   transition: transform .5s var(--ease);
 }
-.portrait .hidden-self {
-  position: absolute; inset: 0; overflow: hidden; pointer-events: none;
-  -webkit-mask-image: radial-gradient(circle var(--r) at var(--cx) var(--cy), black calc(100% - 2px), transparent 100%);
-  mask-image: radial-gradient(circle var(--r) at var(--cx) var(--cy), black calc(100% - 2px), transparent 100%);
-}
-.portrait .hidden-self img { object-position: 50% 30%; }
-.portrait .trail { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; transition: opacity .45s; }
-.portrait.open .trail { opacity: 0; }
-.portrait .hint {
-  position: absolute; left: 6%; top: 6%; z-index: 2; display: inline-flex; align-items: center; gap: .5rem;
-  padding: .4rem .65rem; background: var(--scrim); color: var(--on-photo);
-  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase;
-  pointer-events: none; transition: opacity .3s;
-}
-.portrait .hint::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; border: 1px solid currentColor; }
-.portrait .hint .touch { display: none; }
-@media (hover: none) { .portrait .hint .mouse { display: none; } .portrait .hint .touch { display: inline; } }
-.portrait.peek .hint, .portrait.open .hint { opacity: 0; }
 .portrait::after {
   content: ""; position: absolute; inset: -10% -40%; pointer-events: none;
   background: linear-gradient(110deg, transparent 38%, var(--sheen) 50%, transparent 62%);
@@ -275,7 +324,18 @@ img { display: block; max-width: 100%; }
 }
 
 /* Secciones */
-section { padding-block: clamp(3.5rem, 9vw, 7rem); border-top: 1px solid var(--line); }
+section { position: relative; overflow: hidden; padding-block: clamp(3.5rem, 9vw, 7rem); border-top: 1px solid var(--line); }
+section > .wrap { position: relative; z-index: 1; }
+section::before {
+  content: ""; position: absolute; top: -1px; left: 0; z-index: 2; height: 2px; width: min(38%, 28rem);
+  background: linear-gradient(90deg, var(--d-amber), var(--d-coral) 60%, transparent);
+}
+#sobre-mi { --dr: -18rem; --dt: -8rem; --dp: 0deg; }
+#musica { --dl: -20rem; --dt: 28%; --dp: 40deg; }
+#colaboraciones { --dr: -16rem; --db: -14rem; --dp: 80deg; }
+#en-vivo { --dl: -18rem; --dt: -6rem; --dp: 120deg; }
+#eventos { --dr: -20rem; --dt: 10%; --dp: 200deg; }
+#contacto { --dl: -14rem; --db: -16rem; --dp: 260deg; }
 .hero + section { border-top: 0; }
 .sec-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 2rem; margin-bottom: clamp(1.75rem, 4vw, 3rem); }
 h2 {
@@ -380,7 +440,7 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
 .tag { grid-area: tag; justify-self: end; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; padding: .3rem .55rem; border: 1px solid currentColor; margin-top: .5rem; white-space: nowrap; color: var(--cat); transition: background-color .3s, color .3s; }
 
 @media (hover: hover) {
-  .log li:hover { background: var(--bg-2); }
+  .log li:hover { background: linear-gradient(100deg, color-mix(in srgb, var(--d-amber) 14%, var(--bg-2)), color-mix(in srgb, var(--d-coral) 8%, var(--bg-2)) 45%, var(--bg-2) 80%); }
   .log li:hover time { color: var(--fg); }
   .log li:hover h3 { color: var(--cat); transform: translateX(6px); }
   .log li:hover .tag { background: var(--cat); color: var(--bg); }
@@ -409,6 +469,90 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
   .log .body { display: contents; }
   .log h3 { grid-area: head; font-size: clamp(1.7rem, 7.5vw, 2.2rem); }
   .log .more { grid-area: more; min-width: 0; }
+}
+
+/* Reproductor */
+.ico { display: block; width: 1em; height: 1em; fill: currentColor; flex: none; }
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.5rem; }
+.play {
+  display: inline-flex; align-items: center; gap: .55rem; margin-top: 1rem;
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase;
+  padding: .55rem .95rem .55rem .7rem; color: var(--accent-ink); background: var(--accent); border: 1px solid var(--accent); cursor: pointer;
+  transition: background-color .25s, color .25s, border-color .25s, transform .3s var(--ease);
+}
+.play .ico { width: 1.1rem; height: 1.1rem; }
+.play:hover { background: var(--coral); border-color: var(--coral); }
+.play .i-q, .play .t-pause { display: none; }
+.play[data-playing="true"] { background: transparent; color: var(--accent); }
+.play[data-playing="true"]:hover { border-color: var(--coral); color: var(--coral); }
+.play[data-playing="true"] .i-p, .play[data-playing="true"] .t-play { display: none; }
+.play[data-playing="true"] .i-q { display: block; }
+.play[data-playing="true"] .t-pause { display: inline; }
+.play.big {
+  margin: 0; width: clamp(4rem, 9vw, 5.5rem); height: clamp(4rem, 9vw, 5.5rem); padding: 0; justify-content: center;
+  border: 0; border-radius: 50%; background: var(--dye); color: #17110a; box-shadow: 0 10px 30px -8px var(--shadow);
+}
+.play.big .ico { width: 42%; height: 42%; }
+.play.big .t-play, .play.big .t-pause { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.play.big:hover { background: var(--dye); transform: scale(1.07); }
+.play.big[data-playing="true"] { background: var(--fg); color: var(--bg); }
+
+/* Destacado */
+#destacado { --dr: -16rem; --db: -12rem; --dp: 30deg; }
+.spot-card { display: grid; grid-template-columns: minmax(0, 18rem) minmax(0, 1fr); gap: 2rem clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.spot-art { position: relative; aspect-ratio: 1; }
+.spot-art img { width: 100%; height: 100%; object-fit: cover; border: 1px solid var(--line); }
+.spot-art .play.big { position: absolute; right: -1.25rem; bottom: -1.25rem; }
+.spot h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(3.4rem, 9vw, 7rem); line-height: .88; text-transform: uppercase; margin-top: .5rem; }
+.spot-body p { color: var(--muted); max-width: 46ch; margin-top: 1rem; }
+@media (max-width: 700px) { .spot-card { grid-template-columns: minmax(0, 1fr); } .spot-art { max-width: 16rem; } }
+
+/* Mini reproductor fijo */
+.sc-frame { position: fixed; left: 0; bottom: 0; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
+  background: color-mix(in srgb, var(--bg-2) 94%, transparent); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line);
+  padding: .65rem max(16px, env(safe-area-inset-right, 0px)) calc(.65rem + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.dock::before { content: ""; position: absolute; top: -1px; left: 0; width: 38%; height: 2px; background: linear-gradient(90deg, var(--d-amber), var(--d-coral) 60%, transparent); }
+.dock-in { max-width: 1240px; margin-inline: auto; display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.6fr) auto auto; gap: .5rem 1rem; align-items: center; }
+.dock-play, .dock-close {
+  display: grid; place-items: center; border: 1px solid var(--line); background: transparent; color: var(--fg); cursor: pointer;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.dock-play { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-size: 1.2rem; }
+.dock-play .i-q { display: none; }
+.dock-play[data-playing="true"] .i-p { display: none; }
+.dock-play[data-playing="true"] .i-q { display: block; }
+.dock-play:hover { background: var(--coral); border-color: var(--coral); }
+.dock-close { width: 2.25rem; height: 2.25rem; font-size: 1.4rem; line-height: 1; color: var(--muted); }
+.dock-close:hover { color: var(--fg); border-color: var(--muted); }
+.dock-info { min-width: 0; display: grid; }
+.dock-info b { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; line-height: 1.05; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock-info .label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock-seek { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .75rem; align-items: center; font-family: var(--font-mono); font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dock-seek input { --p: 0%; width: 100%; height: 1.5rem; margin: 0; background: none; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.dock-seek input::-webkit-slider-runnable-track { height: 4px; background: linear-gradient(90deg, var(--d-amber), var(--d-coral)) 0 / var(--p) 100% no-repeat, var(--line); }
+.dock-seek input::-moz-range-track { height: 4px; background: linear-gradient(90deg, var(--d-amber), var(--d-coral)) 0 / var(--p) 100% no-repeat, var(--line); }
+.dock-seek input::-webkit-slider-thumb { -webkit-appearance: none; width: .85rem; height: .85rem; margin-top: -.3rem; border-radius: 50%; background: var(--fg); border: 0; }
+.dock-seek input::-moz-range-thumb { width: .85rem; height: .85rem; border-radius: 50%; background: var(--fg); border: 0; }
+.dock-open { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: .1rem; }
+.dock-open::after { content: "\00a0\2197"; }
+.dock-open:hover { color: var(--accent); border-color: currentColor; }
+body.has-dock footer { padding-bottom: calc(3rem + 5.5rem); }
+@media (prefers-reduced-motion: no-preference) {
+  .dock:not([hidden]) { animation: dock-in .45s var(--ease) both; }
+  @keyframes dock-in { from { transform: translateY(100%); } to { transform: none; } }
+}
+@media (max-width: 700px) {
+  .dock-in { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "play info close" "seek seek seek"; }
+  .dock-play { grid-area: play; }
+  .dock-info { grid-area: info; }
+  .dock-close { grid-area: close; }
+  .dock-seek { grid-area: seek; }
+  .dock-open { display: none; }
+  body.has-dock footer { padding-bottom: calc(3rem + 7rem); }
 }
 
 /* Bness */
@@ -526,6 +670,39 @@ h2::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; wi
   .contact h2 span { animation: rec 1.3s steps(2, jump-none) infinite; }
   @keyframes rec { 50% { opacity: .15; } }
 }
+/* Formulario de contratación */
+.hire { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1rem; margin-top: 1.75rem; }
+.field { display: grid; gap: .4rem; min-width: 0; }
+.field.wide, .hire-actions, .hire .fine { grid-column: 1 / -1; }
+.field label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.field input, .field select, .field textarea {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  padding: .7rem .8rem; border-radius: 0; transition: border-color .2s;
+}
+.field textarea { resize: vertical; min-height: 5.5rem; }
+.field input:hover, .field select:hover, .field textarea:hover { border-color: var(--muted); }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.hire-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.contact .hire .btn { margin-top: 0; }
+.hire .fine { color: var(--muted); font-size: .88rem; }
+@media (max-width: 520px) { .hire { grid-template-columns: minmax(0, 1fr); } }
+.tool-btns { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+.contact .tool-btns .btn { margin-top: 0; padding: .7rem 1rem; font-size: .74rem; }
+
+/* Licencias de beats */
+.lic { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.lic h3 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: .95; text-transform: uppercase; }
+.lic-head p { color: var(--muted); max-width: 58ch; margin-top: .75rem; }
+.lic-grid { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--fg); }
+.lic-grid li { display: flex; flex-direction: column; align-items: flex-start; gap: .7rem; padding: 1.5rem 1.5rem 1.75rem 0; }
+.lic-grid li + li { padding-left: 1.5rem; border-left: 1px solid var(--line); }
+.lic-grid h4 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 2rem; line-height: 1; text-transform: uppercase; }
+.lic-grid p { color: var(--muted); margin: 0; flex: 1; }
+@media (max-width: 800px) {
+  .lic-grid { grid-template-columns: minmax(0, 1fr); }
+  .lic-grid li, .lic-grid li + li { padding: 1.5rem 0; border-left: 0; border-bottom: 1px solid var(--line); }
+}
+
 .rows { display: grid; border-top: 1px solid var(--fg); }
 .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem 1rem; align-items: center; padding-block: 1.1rem; border-bottom: 1px solid var(--line); transition: padding-left .3s var(--ease); }
 .row:hover { padding-left: .5rem; }
@@ -571,6 +748,12 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="dye-warp" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.008 0.011" numOctaves="2" seed="11" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="140" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></symbol>
   <symbol id="logo" viewBox="0 0 157.4 158.2"><path d="M131.9 88.3C128.8 85.1 125.6 82.2 122.5 79.5C125.6 76.9 128.8 73.9 131.9 70.7C140.1 62.6 147.1 54.2 151.5 47.1C156 39.8 157.4 34.7 155.3 32.7C154 31.4 151.5 31.5 148 32.8C149.4 29.4 149.5 26.8 148.2 25.5C146.9 24.2 144.3 24.4 140.9 25.7C142.2 22.3 142.3 19.7 141 18.4C140 17.4 138.2 17.2 135.7 17.9C136.4 15.4 136.2 13.6 135.2 12.6C133.6 11 130.3 11.5 125.6 13.8C127.8 9.2 128.3 5.7 126.7 4.1C122.6 0 105.8 10.2 88.6 27.4C85.4 30.6 82.4 33.8 79.7 36.9C77 33.8 74.1 30.6 70.9 27.4C53.7 10.2 36.9 0 32.8 4.1C31.2 5.7 31.7 9.2 33.9 13.8C29.2 11.5 25.8 11.1 24.3 12.6C23.2 13.6 23.1 15.4 23.7 17.9C21.3 17.2 19.5 17.4 18.4 18.4C17.1 19.7 17.3 22.3 18.6 25.7C15.2 24.4 12.6 24.2 11.3 25.5C10 26.8 10.1 29.3 11.4 32.8C8 31.5 5.5 31.4 4.1 32.7C0 36.8 10.3 53.5 27.5 70.7C30.7 73.9 33.9 76.9 37 79.5C33.9 82.2 30.7 85.1 27.5 88.3C10.3 105.5 0 122.3 4.2 126.4C5.7 128 9.2 127.5 13.8 125.2C11.6 129.8 11 133.3 12.6 134.9C13.7 135.9 15.5 136 17.9 135.4C17.3 137.8 17.4 139.6 18.4 140.7C19.7 141.9 22.2 141.9 25.7 140.5C24.4 144 24.3 146.5 25.6 147.8C26.9 149.1 29.5 149 32.9 147.7C31.6 151.1 31.4 153.6 32.8 154.9C33.4 155.5 34.3 155.8 35.4 155.8C41.9 155.8 56.2 146.2 70.9 131.6C74.1 128.5 77 125.3 79.7 122.2C82.4 125.3 85.4 128.5 88.6 131.6C103.2 146.2 117.5 155.8 124 155.8C125.2 155.8 126.1 155.5 126.7 154.9C128 153.6 127.9 151.1 126.6 147.7C130 149 132.6 149.1 133.9 147.8C135.2 146.5 135.1 144 133.7 140.5C137.2 141.9 139.7 141.9 141 140.7C142.1 139.6 142.2 137.8 141.5 135.4C144 136 145.8 135.9 146.8 134.9C148.4 133.3 147.9 129.8 145.7 125.2C150.3 127.5 153.7 128 155.3 126.4C157.4 124.4 156 119.3 151.5 112C147.1 104.9 140.1 96.5 131.9 88.3ZM154.8 33.2C156.6 34.9 155.1 39.8 150.9 46.7C146.5 53.8 139.6 62.1 131.4 70.2C128.3 73.4 125.1 76.4 121.9 79.1C119.4 76.9 116.9 74.9 114.5 73.1C117.9 70.2 121.4 67 124.8 63.6C136.2 52.3 144.5 41.2 147.7 33.7C151.1 32.3 153.6 32 154.8 33.2ZM105.1 91.2C102.4 89 99.7 87 97.2 85.3C98.2 84.8 99.2 84.2 100.3 83.5C102 85.8 103.8 88.3 105.9 90.8C105.6 90.9 105.4 91.1 105.1 91.2ZM106.4 91.3C107.3 92.5 108.3 93.6 109.3 94.7C108.1 93.7 106.9 92.7 105.7 91.7C105.9 91.6 106.1 91.5 106.4 91.3ZM91 105.6C88.5 103.6 86.1 101.7 83.7 100.1C84.4 99 85 98 85.5 97C87.2 99.5 89.2 102.1 91.4 104.9C91.3 105.1 91.2 105.4 91 105.6ZM91.9 105.4C92.9 106.6 93.9 107.8 95 109C93.8 108 92.7 107 91.6 106.1C91.7 105.9 91.8 105.7 91.9 105.4ZM68 104.9C70.3 102.1 72.3 99.5 74 97C74.5 98 75.1 99 75.7 100.1C73.4 101.7 71 103.6 68.5 105.6C68.3 105.4 68.2 105.1 68 104.9ZM67.9 106.1C66.8 107 65.6 108 64.5 109C65.5 107.8 66.6 106.6 67.5 105.4C67.7 105.7 67.8 105.9 67.9 106.1ZM53.6 90.8C55.7 88.3 57.5 85.8 59.1 83.5C60.2 84.2 61.2 84.8 62.2 85.3C59.7 87 57.1 89 54.4 91.2C54.1 91.1 53.8 90.9 53.6 90.8ZM53.8 91.7C52.6 92.7 51.4 93.7 50.2 94.7C51.2 93.6 52.2 92.5 53.1 91.3C53.3 91.5 53.5 91.6 53.8 91.7ZM54.4 67.9C57.6 70.5 60.8 72.9 63.7 74.8C63.6 74.9 63.5 75 63.5 75.2C62.4 75.7 61.3 76.3 60.2 77C58.3 74.3 56.1 71.4 53.6 68.3C53.8 68.2 54.1 68 54.4 67.9ZM53.1 67.7C52.2 66.6 51.2 65.5 50.2 64.3C51.4 65.4 52.6 66.4 53.8 67.4C53.5 67.5 53.3 67.6 53.1 67.7ZM67.6 54.9C70.2 58 72.4 61.1 74.3 63.8C70 65.9 67 66.3 65.7 65C64.2 63.6 65 60 67.6 54.9ZM68.5 53.4C71.5 55.9 74.4 58.1 77.2 60C76.5 61.2 75.9 62.3 75.4 63.3C75.2 63.4 75.1 63.4 74.9 63.5C73 60.6 70.7 57.4 68 54.2C68.2 54 68.3 53.7 68.5 53.4ZM67.5 53.6C66.5 52.4 65.5 51.2 64.4 50C65.6 51 66.8 52 67.9 53C67.8 53.2 67.7 53.4 67.5 53.6ZM91.4 54.2C88.8 57.4 86.5 60.6 84.5 63.5C84.4 63.4 84.2 63.4 84.1 63.3C83.6 62.3 82.9 61.2 82.2 60C85 58.1 88 55.9 91 53.4C91.2 53.7 91.3 54 91.4 54.2ZM91.6 53C92.7 52 93.9 51 95 50C94 51.2 92.9 52.4 91.9 53.6C91.8 53.4 91.7 53.2 91.6 53ZM93.8 65C92.5 66.3 89.4 65.9 85.2 63.8C87 61.1 89.3 58 91.8 54.9C94.5 60 95.2 63.6 93.8 65ZM105.9 68.3C103.4 71.4 101.1 74.3 99.3 77C98.2 76.3 97.1 75.7 96 75.2C95.9 75 95.9 74.9 95.8 74.8C98.7 72.9 101.8 70.5 105.1 67.9C105.4 68 105.6 68.2 105.9 68.3ZM105.7 67.4C106.9 66.4 108.1 65.4 109.3 64.3C108.3 65.5 107.3 66.6 106.4 67.7C106.1 67.6 105.9 67.5 105.7 67.4ZM95.5 85C95.6 85.1 95.7 85.1 95.8 85.2C95.6 85.3 95.4 85.4 95.2 85.5C95.3 85.3 95.4 85.1 95.5 85ZM90.5 92.7C89.6 92.1 88.7 91.5 87.8 90.9C88.1 89.6 88.1 88.5 87.9 87.6C88.2 87.7 88.6 87.8 89.1 87.8C89.1 87.8 89.1 87.9 89.1 87.9C90.1 89.4 91.2 91 92.4 92.7C91.8 92.6 91.2 92.6 90.5 92.7ZM93 93.6C93.5 94.2 94 94.8 94.5 95.5C94.5 95.5 94.5 95.5 94.5 95.6C93.4 94.8 92.4 94 91.4 93.3C92 93.3 92.6 93.4 93 93.6ZM85.4 95.6C85.3 95.4 85.3 95.3 85.2 95.2C85.4 95.2 85.5 95.1 85.7 95C85.6 95.2 85.5 95.4 85.4 95.6ZM84.8 94.6C83.2 92.2 81.9 89.9 80.9 87.9C82.8 88.7 84.8 89.9 87.1 91.3C86.8 92.1 86.5 93 86.1 94C85.7 94.2 85.2 94.4 84.8 94.6ZM79.7 97.4C79.7 97.4 79.7 97.4 79.6 97.4C78.1 96.4 76.7 95.6 75.3 95C77.1 92.2 78.5 89.7 79.5 87.4C79.6 87.4 79.7 87.4 79.7 87.3C79.8 87.4 79.9 87.4 80 87.4C80.9 89.7 82.3 92.2 84.1 95C82.8 95.6 81.4 96.4 79.9 97.4C79.8 97.4 79.8 97.4 79.7 97.4ZM73.8 95C73.9 95.1 74.1 95.2 74.3 95.2C74.2 95.3 74.1 95.4 74.1 95.6C74 95.4 73.9 95.2 73.8 95ZM73.4 94C72.9 93 72.6 92.1 72.4 91.3C74.6 89.9 76.7 88.7 78.5 87.9C77.6 89.9 76.3 92.2 74.7 94.6C74.2 94.4 73.8 94.2 73.4 94ZM67.1 92.7C68.3 91 69.4 89.4 70.3 87.9C70.3 87.9 70.4 87.8 70.4 87.8C70.8 87.8 71.2 87.7 71.6 87.6C71.3 88.5 71.4 89.6 71.6 90.9C70.8 91.5 69.9 92.1 68.9 92.7C68.3 92.6 67.6 92.6 67.1 92.7ZM68.1 93.3C67.1 94 66 94.8 65 95.6C65 95.5 65 95.5 65 95.5C65.5 94.8 66 94.2 66.5 93.6C66.9 93.4 67.3 93.3 67.9 93.3C67.9 93.3 68 93.3 68.1 93.3ZM64.2 85.5C64 85.4 63.9 85.3 63.7 85.2C63.8 85.1 63.9 85.1 64 85C64.1 85.1 64.2 85.3 64.2 85.5ZM64 75.7C64.2 75.6 64.4 75.5 64.6 75.4C67.3 77.1 69.7 78.4 71.8 79.3C71.9 79.4 71.9 79.6 72 79.7C69.7 80.7 67.1 82.1 64.3 83.9C63.6 82.5 62.8 81.1 61.8 79.5C62.6 78.2 63.4 76.9 64 75.7ZM61.4 78.8C61.1 78.4 60.8 78 60.6 77.6C61.4 77.1 62.1 76.7 62.8 76.3C62.4 77.1 61.9 78 61.4 78.8ZM79.7 61.6C79.8 61.6 79.8 61.7 79.9 61.7C81.2 62.5 82.4 63.2 83.6 63.8C83.7 64 83.8 64.3 83.9 64.5C83.7 64.8 83.5 65.1 83.3 65.4C81.7 67.9 80.5 70.2 79.7 72.2C78.9 70.2 77.7 67.9 76.2 65.4C76 65.1 75.8 64.8 75.6 64.5C75.7 64.3 75.8 64 75.9 63.8C77.1 63.2 78.3 62.5 79.6 61.7C79.7 61.7 79.7 61.6 79.7 61.6ZM84.8 64.4C88.1 66 90.6 66.6 92.4 66.4C90.4 67.8 88.5 69.1 86.6 70.2C86.4 68.6 85.8 66.7 84.7 64.5C84.8 64.5 84.8 64.5 84.8 64.4ZM94.8 74.6C93.4 73.9 92.1 73.4 91 73.1C91 73 91 72.9 91.1 72.9C91.7 71.9 92.4 70.8 93.1 69.8C93.4 71.1 94 72.7 94.9 74.5C94.8 74.5 94.8 74.5 94.8 74.6ZM87.2 90.5C84.8 89 82.6 87.8 80.7 87C83.5 86 85.6 85.9 86.6 86.9C87.4 87.6 87.5 88.9 87.2 90.5ZM72.8 86.9C73.9 85.9 76 86 78.8 87C76.8 87.8 74.6 89 72.2 90.5C71.9 88.9 72.1 87.6 72.8 86.9ZM72.3 86.4C72 86.8 71.4 87 70.8 87.1C71.6 85.7 72.4 84.4 73 83.2C73.2 84.6 73 85.8 72.3 86.4ZM79.2 86.4C76.8 85.5 74.9 85.3 73.6 85.7C73.8 84.8 73.8 83.6 73.5 82.1C73.8 81.4 74 80.8 74.2 80.2C76.1 80.7 77.6 80.9 78.8 80.5C78.4 81.8 78.6 83.6 79.4 85.9C79.3 86 79.2 86.2 79.2 86.4ZM72.3 78.8C71.7 77.2 70.7 75.4 69.6 73.5C71.5 73.1 72.9 73.2 73.7 74C74.6 74.9 74.6 76.6 73.9 79C73.7 79 73.6 79.1 73.4 79.2C73.1 79 72.7 78.9 72.3 78.8ZM71.4 78.3C69.6 77.5 67.6 76.4 65.4 75C66.7 74.4 67.8 74 68.9 73.7C69.9 75.4 70.7 76.9 71.4 78.3ZM84.8 78.8C83.1 78.3 81.7 78.2 80.7 78.6C81 77.6 81 76.2 80.5 74.5C82.2 74.9 83.6 75 84.6 74.7C84.3 75.7 84.3 77.1 84.8 78.8ZM74.9 74.7C75.9 75 77.3 74.9 79 74.5C78.5 76.2 78.4 77.6 78.8 78.6C77.7 78.2 76.4 78.3 74.7 78.8C75.1 77.1 75.2 75.7 74.9 74.7ZM79.2 79.5C78.2 80.2 76.6 80.2 74.5 79.5C76.6 78.9 78.2 78.9 79.2 79.5ZM85 79.5C82.9 80.2 81.3 80.2 80.3 79.5C81.3 78.9 82.9 78.9 85 79.5ZM80.8 73.9C82.4 73.3 84.1 72.5 86 71.4C86 72.3 85.8 73 85.3 73.5C84.5 74.3 82.9 74.4 80.8 73.9ZM79.7 79C79.1 78 79.1 76.4 79.7 74.3C80.4 76.4 80.4 78 79.7 79ZM74.2 73.5C73.7 73 73.5 72.3 73.4 71.4C75.3 72.5 77.1 73.3 78.6 73.9C76.6 74.4 75 74.3 74.2 73.5ZM73.4 79.9C73.5 79.9 73.5 79.9 73.6 80C73.5 80.3 73.3 80.6 73.2 81C73.1 80.7 73 80.4 72.9 80.1C73 80 73.2 80 73.4 79.9ZM79.7 80.1C80.4 81.1 80.4 82.7 79.7 84.8C79.1 82.7 79.1 81.1 79.7 80.1ZM86.5 83.2C87.1 84.4 87.8 85.7 88.7 87.1C88 87 87.5 86.8 87.1 86.4C86.5 85.8 86.3 84.6 86.5 83.2ZM85.9 85.7C84.6 85.3 82.7 85.5 80.3 86.4C80.2 86.2 80.2 86 80.1 85.9C80.9 83.6 81.1 81.8 80.7 80.5C81.8 80.9 83.4 80.7 85.2 80.2C85.4 80.8 85.7 81.4 86 82.1C85.6 83.6 85.6 84.8 85.9 85.7ZM85.9 80C85.9 79.9 86 79.9 86.1 79.9C86.2 80 86.4 80 86.6 80.1C86.5 80.4 86.4 80.7 86.3 81C86.1 80.6 86 80.3 85.9 80ZM86.1 79.2C85.9 79.1 85.7 79 85.6 79C84.8 76.6 84.9 74.9 85.8 74C86.6 73.2 88 73.1 89.9 73.5C88.7 75.4 87.8 77.2 87.1 78.8C86.8 78.9 86.4 79 86.1 79.2ZM90.6 73.7C91.6 74 92.8 74.4 94.1 75C91.9 76.4 89.9 77.5 88.1 78.3C88.7 76.9 89.6 75.4 90.6 73.7ZM90.5 72.5C90.4 72.6 90.3 72.8 90.3 72.9C88.7 72.5 87.5 72.5 86.5 72.8C86.7 72.3 86.8 71.7 86.7 71C88.7 69.9 90.7 68.5 92.9 66.9C92.8 67.5 92.9 68.1 92.9 68.8C92.1 70.1 91.2 71.3 90.5 72.5ZM86 70.6C83.8 71.8 81.9 72.8 80.2 73.4C80.1 73.3 80.1 73.3 80.1 73.2C80.9 71 82.4 68.3 84.3 65.2C85.3 67.4 85.8 69.2 86 70.6ZM79.4 73.2C79.3 73.3 79.3 73.3 79.3 73.4C77.6 72.8 75.6 71.8 73.5 70.6C73.6 69.2 74.2 67.4 75.2 65.2C77.1 68.3 78.5 71 79.4 73.2ZM74.7 64.5C73.7 66.7 73 68.6 72.8 70.2C71 69.1 69.1 67.8 67 66.4C68.8 66.6 71.4 66 74.7 64.4C74.7 64.5 74.7 64.5 74.7 64.5ZM72.8 71C72.7 71.7 72.8 72.3 73 72.8C72 72.5 70.7 72.5 69.2 72.9C69.1 72.8 69.1 72.6 69 72.5C68.2 71.3 67.4 70.1 66.5 68.8C66.6 68.1 66.6 67.5 66.6 67C68.7 68.5 70.8 69.9 72.8 71ZM68.4 72.9C68.4 72.9 68.5 73 68.5 73.1C67.4 73.4 66.1 73.9 64.7 74.6C64.7 74.5 64.6 74.5 64.6 74.5C65.4 72.7 66 71.1 66.3 69.8C67.1 70.8 67.8 71.9 68.4 72.9ZM72.2 80.4C72.4 80.9 72.6 81.5 72.7 82C72 83.6 71.1 85.3 69.9 87.1C68.7 87.1 67.1 86.7 65.2 85.9C65 85.5 64.8 85 64.6 84.6C67.4 82.8 70 81.3 72.2 80.4ZM69.5 87.8C68.6 89.2 67.6 90.7 66.5 92.3C66.8 90.9 66.4 89 65.6 86.8C67.1 87.4 68.4 87.7 69.5 87.8ZM71.8 91.7C72 92.3 72.2 93 72.5 93.7C71.6 93.3 70.7 93.1 70 92.9C70.6 92.5 71.2 92.1 71.8 91.7ZM87.7 91.7C88.3 92.1 88.9 92.5 89.5 92.9C88.7 93.1 87.9 93.3 87 93.7C87.3 93 87.5 92.3 87.7 91.7ZM89.9 87.8C91.1 87.7 92.4 87.4 93.9 86.8C93 89 92.7 90.9 92.9 92.3C91.8 90.7 90.8 89.2 89.9 87.8ZM89.5 87.1C88.4 85.3 87.4 83.6 86.7 82C86.9 81.5 87 80.9 87.2 80.4C89.5 81.3 92 82.8 94.9 84.6C94.7 85 94.5 85.5 94.3 85.9C92.4 86.7 90.8 87.1 89.5 87.1ZM87.5 79.7C87.6 79.6 87.6 79.4 87.7 79.3C89.8 78.4 92.2 77.1 94.9 75.4C95.1 75.5 95.3 75.6 95.5 75.7C96.1 76.9 96.8 78.2 97.7 79.5C96.7 81.1 95.9 82.5 95.2 83.9C92.4 82.1 89.8 80.7 87.5 79.7ZM96.6 76.3C97.4 76.7 98.1 77.1 98.9 77.6C98.6 78 98.4 78.4 98.1 78.8C97.6 78 97.1 77.1 96.6 76.3ZM95.5 74.1C94.5 72.1 93.9 70.4 93.7 69C94.6 67.6 95.7 66.2 96.8 64.8C98.6 64.9 101.3 65.8 104.4 67.5C101.3 70 98.3 72.2 95.5 74.1ZM95.8 64.8C95 65.9 94.3 66.9 93.5 67.9C93.5 67.3 93.6 66.8 93.8 66.3C94.4 65.8 95.1 65.4 95.8 64.8C95.8 64.8 95.8 64.8 95.8 64.8ZM83 62.7C82.2 62.3 81.3 61.8 80.4 61.2C80.8 60.9 81.2 60.7 81.6 60.4C82.1 61.2 82.6 62 83 62.7ZM79.7 60.8C79.2 60.5 78.7 60.1 78.2 59.8C78.7 59 79.2 58.2 79.7 57.4C80.3 58.2 80.8 59 81.3 59.8C80.8 60.1 80.2 60.5 79.7 60.8ZM79.1 61.2C78.2 61.8 77.3 62.3 76.5 62.7C76.9 62 77.3 61.2 77.8 60.4C78.2 60.7 78.7 60.9 79.1 61.2ZM65.7 66.3C65.9 66.8 65.9 67.3 65.9 67.9C65.2 66.9 64.4 65.9 63.6 64.8C63.6 64.8 63.7 64.8 63.7 64.8C64.4 65.3 65 65.8 65.7 66.3ZM65.8 69C65.6 70.4 64.9 72.1 64 74.1C61.2 72.2 58.2 70 55.1 67.5C58.2 65.8 60.8 64.9 62.7 64.8C63.8 66.2 64.8 67.6 65.8 69ZM60.9 79.5C60.3 80.5 59.6 81.5 58.9 82.5C58 82 57 81.3 56 80.6C57.3 79.7 58.6 78.8 59.9 78C60.3 78.5 60.6 79 60.9 79.5ZM61.4 80.2C62.2 81.7 63 83 63.7 84.3C63.4 84.5 63.2 84.6 62.9 84.8C61.8 84.3 60.7 83.6 59.5 82.9C60.2 82 60.8 81.1 61.4 80.2ZM63 85.7C63.6 85.9 64.1 86.2 64.7 86.4C66.1 89.8 66.4 92.4 65.2 93.5C63.7 95.1 60 94.2 55.1 91.6C57.8 89.3 60.5 87.4 63 85.7ZM69.2 93.4C70.2 93.6 71.4 94 72.8 94.6C73.1 95.1 73.3 95.7 73.6 96.2C71.9 98.7 69.9 101.4 67.6 104.1C66 101 65.1 98.4 65 96.5C66.4 95.4 67.8 94.4 69.2 93.4ZM74.4 96.3C74.6 96.1 74.8 95.8 75 95.6C76.2 96.2 77.6 97 79.1 97.9C78.2 98.4 77.3 99 76.3 99.7C75.6 98.5 75 97.4 74.4 96.3ZM79.7 98.3C80.7 98.9 81.7 99.6 82.8 100.3C81.9 101.7 80.9 103.2 79.7 104.8C78.6 103.2 77.6 101.7 76.7 100.3C77.7 99.6 78.7 98.9 79.7 98.3ZM80.4 97.9C81.9 97 83.2 96.2 84.5 95.6C84.7 95.8 84.9 96.1 85 96.3C84.5 97.4 83.9 98.5 83.1 99.7C82.2 99 81.3 98.4 80.4 97.9ZM85.9 96.2C86.1 95.7 86.4 95.1 86.6 94.6C88 94 89.2 93.6 90.3 93.4C91.7 94.4 93.1 95.4 94.5 96.5C94.4 98.4 93.5 101 91.8 104.2C89.6 101.4 87.6 98.7 85.9 96.2ZM94.8 86.4C95.3 86.2 95.9 85.9 96.5 85.7C99 87.4 101.6 89.3 104.4 91.6C101.1 93.3 98.4 94.3 96.5 94.3C95.5 94.3 94.8 94.1 94.3 93.5C93.1 92.4 93.4 89.8 94.8 86.4ZM96.6 84.8C96.3 84.6 96.1 84.5 95.8 84.3C96.5 83 97.2 81.7 98.1 80.2C98.7 81.1 99.3 82 99.9 82.9C98.8 83.6 97.6 84.3 96.6 84.8ZM98.6 79.5C98.9 79 99.2 78.5 99.5 78C100.8 78.8 102.1 79.7 103.5 80.6C102.5 81.3 101.5 82 100.6 82.5C99.8 81.5 99.2 80.5 98.6 79.5ZM99.9 77.4C101.8 74.7 104 71.7 106.5 68.7C108.6 69.9 110.9 71.4 113.3 73.2C110.1 75.8 107 78.2 104.1 80.2C102.7 79.2 101.3 78.3 99.9 77.4ZM107 68.1C110.2 64.3 113.7 60.4 117.7 56.5C128.4 45.8 139.3 37.5 146.7 34.1C143.3 41.5 135 52.4 124.3 63.1C120.8 66.6 117.3 69.8 113.9 72.7C111.5 70.9 109.1 69.4 107 68.1ZM117.1 56C113.1 60 109 63.8 105 67C101.9 65.3 99.3 64.4 97.3 64.2C97.6 63.7 97.9 63.3 98.2 62.9C102.6 59.4 107.2 55.3 111.8 50.7C116.3 46.2 120.5 41.6 124 37.2C129.9 32.5 135.3 28.9 139.6 27C136.1 34.3 127.9 45.3 117.1 56ZM100.7 59.9C103.7 56.4 107 52.9 110.5 49.3C114.1 45.8 117.7 42.5 121.1 39.6C118.2 43.1 114.9 46.6 111.3 50.2C107.8 53.7 104.2 57 100.7 59.9ZM123.6 36.6C119.2 40.1 114.6 44.2 110 48.8C105.5 53.3 101.4 57.9 97.8 62.3C97 63 96.2 63.6 95.4 64.2C95.2 64.2 95.1 64.3 95 64.3C95.7 62.3 94.7 58.8 92.3 54.3C95.6 50.4 99.3 46.3 103.4 42.2C111.5 34.1 119.9 27.2 127 22.8C129.9 21 132.5 19.7 134.7 18.9C133.9 21.1 132.6 23.7 130.8 26.6C128.8 29.7 126.4 33.1 123.6 36.6ZM102.9 41.7C99 45.6 95 49.2 91.2 52.4C91 51.9 90.7 51.5 90.5 51.1C89.6 49.8 88.7 48.4 87.7 47C90.7 43.5 94 39.9 97.5 36.4C107 27 116.7 19.4 123.9 15.4C119.9 22.6 112.3 32.3 102.9 41.7ZM89.9 51.5C90.1 51.9 90.4 52.4 90.6 52.8C87.6 55.3 84.7 57.5 81.9 59.4C81.3 58.6 80.8 57.7 80.2 56.8C82.2 53.9 84.6 50.8 87.2 47.6C88.2 48.9 89.1 50.2 89.9 51.5ZM79.7 56.2C77.7 53.2 75.3 50.2 72.6 47C74.7 44.1 77.1 41.1 79.7 38C82.4 41.1 84.8 44.1 86.8 47C84.2 50.2 81.8 53.2 79.7 56.2ZM79.3 56.8C78.7 57.7 78.1 58.6 77.6 59.4C74.8 57.5 71.9 55.3 68.8 52.8C69.1 52.4 69.3 51.9 69.6 51.5C70.4 50.2 71.3 48.9 72.2 47.6C74.9 50.8 77.3 53.9 79.3 56.8ZM69 51.1C68.8 51.5 68.5 51.9 68.3 52.4C64.4 49.2 60.5 45.6 56.6 41.7C47.2 32.3 39.6 22.6 35.6 15.4C42.8 19.4 52.5 27 61.9 36.4C65.5 39.9 68.8 43.5 71.8 47C70.8 48.4 69.8 49.8 69 51.1ZM67.2 54.3C64.7 58.8 63.8 62.3 64.5 64.3C64.4 64.3 64.2 64.2 64.1 64.2C63.3 63.6 62.5 63 61.6 62.3C58.1 57.9 54 53.3 49.5 48.8C44.8 44.2 40.2 40.1 35.9 36.6C33.1 33.1 30.6 29.7 28.7 26.6C26.9 23.7 25.6 21.1 24.8 18.9C26.9 19.7 29.5 21 32.5 22.8C39.6 27.2 48 34.1 56.1 42.2C60.2 46.3 63.9 50.4 67.2 54.3ZM58.8 59.9C55.3 57 51.7 53.7 48.1 50.2C44.6 46.6 41.3 43.1 38.3 39.6C41.8 42.5 45.4 45.8 49 49.3C52.5 52.9 55.8 56.4 58.8 59.9ZM47.6 50.7C52.3 55.3 56.9 59.4 61.2 62.9C61.6 63.3 61.9 63.7 62.2 64.2C60.2 64.4 57.5 65.3 54.5 67C50.5 63.8 46.4 60 42.3 56C31.6 45.3 23.3 34.3 19.9 27C24.1 28.9 29.6 32.5 35.5 37.2C39 41.6 43.1 46.2 47.6 50.7ZM52.5 68.1C50.3 69.4 48 70.9 45.6 72.7C42.2 69.8 38.7 66.6 35.2 63.1C27 55 20.1 46.6 15.7 39.6C14.5 37.6 13.5 35.8 12.8 34.1C20.1 37.5 31.1 45.8 41.8 56.5C45.7 60.4 49.3 64.3 52.5 68.1ZM52.9 68.7C55.5 71.7 57.7 74.7 59.5 77.4C58.2 78.3 56.8 79.2 55.4 80.2C52.5 78.2 49.4 75.8 46.2 73.2C48.6 71.4 50.8 69.9 52.9 68.7ZM54.7 80.7C52.3 82.4 49.7 84.4 47.1 86.6C44.3 84.6 41.2 82.2 38.1 79.5C40.7 77.4 43.2 75.4 45.6 73.6C48.7 76.3 51.8 78.6 54.7 80.7ZM55.3 81.1C56.4 81.8 57.4 82.5 58.4 83.1C58.4 83.1 58.5 83.1 58.5 83.1C56.9 85.5 55 87.9 52.9 90.4C51.3 89.4 49.6 88.3 47.7 87C50.3 84.8 52.9 82.8 55.3 81.1ZM52.5 91C49.3 94.8 45.7 98.7 41.8 102.6C32.4 112 22.7 119.6 15.5 123.6C19.5 116.4 27 106.7 36.5 97.3C40 93.8 43.6 90.5 47.1 87.5C49 88.8 50.8 90 52.5 91ZM42.3 103.1C46.4 99 50.5 95.3 54.5 92.1C58 93.9 60.9 95 63 95C63.6 95 64 94.9 64.5 94.8C64.4 94.9 64.4 95 64.4 95.2C63.8 95.9 63.2 96.7 62.6 97.5C58.2 101 53.6 105.1 49 109.7C44.5 114.2 40.3 118.8 36.8 123.2C29.8 128.8 23.4 132.8 19 134.3C21.6 127.1 30.4 114.9 42.3 103.1ZM60.1 100.5C57.1 104 53.8 107.5 50.3 111.1C46.7 114.6 43.1 117.9 39.7 120.8C42.6 117.3 45.9 113.8 49.5 110.2C53 106.7 56.6 103.4 60.1 100.5ZM37.2 123.8C41.6 120.3 46.2 116.2 50.8 111.6C55.3 107.1 59.4 102.5 63 98.1C63.4 97.7 63.9 97.4 64.3 97.1C64.5 99 65.5 101.6 67.2 104.7C63.9 108.7 60.2 112.8 56.1 116.9C48 125 39.6 131.9 32.5 136.2C30.5 137.5 28.7 138.5 27.1 139.2C27.8 137.6 28.8 135.8 30 133.8C32 130.6 34.4 127.3 37.2 123.8ZM56.6 117.4C60.5 113.5 64.4 109.9 68.3 106.7C68.5 107.1 68.8 107.5 69 107.9C70.1 109.8 71.4 111.6 72.9 113.6C70 117 66.8 120.5 63.3 124C52.6 134.7 41.6 142.9 34.2 146.3C37.6 139 45.9 128 56.6 117.4ZM69.6 107.6C69.3 107.1 69.1 106.7 68.8 106.3C71.3 104.2 73.8 102.3 76.1 100.7C76.1 100.7 76.1 100.8 76.2 100.8C77.1 102.3 78.1 103.9 79.3 105.5C77.5 107.9 75.5 110.4 73.3 113C72 111.2 70.7 109.3 69.6 107.6ZM79.7 106.1C81.5 108.5 83.5 111.1 85.7 113.6C83.9 116.1 81.9 118.6 79.7 121.1C77.6 118.6 75.6 116.1 73.8 113.6C76 111.1 78 108.5 79.7 106.1ZM80.2 105.5C81.3 103.9 82.4 102.3 83.3 100.8C83.3 100.8 83.3 100.7 83.4 100.7C85.7 102.3 88.2 104.2 90.6 106.3C90.4 106.7 90.1 107.1 89.8 107.6C88.8 109.3 87.5 111.2 86.1 113C83.9 110.4 81.9 107.9 80.2 105.5ZM90.5 107.9C90.7 107.5 91 107.1 91.2 106.7C95 109.9 98.9 113.5 102.8 117.3C102.8 117.3 102.8 117.3 102.9 117.4C113.6 128 121.8 139 125.3 146.3C117.9 142.9 106.9 134.7 96.2 124C92.7 120.5 89.5 117 86.6 113.6C88 111.6 89.3 109.8 90.5 107.9ZM92.3 104.7C94 101.6 94.9 99 95.2 97.1C95.6 97.4 96.1 97.7 96.5 98.1C100 102.5 104.2 107.1 108.7 111.6C113.3 116.2 117.9 120.3 122.3 123.8C125.1 127.3 127.5 130.6 129.4 133.8C130.7 135.8 131.7 137.6 132.4 139.2C130.8 138.5 129 137.5 127 136.2C119.9 131.9 111.5 125 103.4 116.9C99.3 112.8 95.5 108.7 92.3 104.7ZM99.4 100.5C102.8 103.4 106.4 106.7 110 110.2C113.5 113.7 116.8 117.3 119.8 120.8C116.3 117.9 112.7 114.6 109.2 111.1C105.6 107.5 102.3 104 99.4 100.5ZM110.5 109.7C105.9 105.1 101.3 101 96.9 97.5C96.3 96.7 95.7 95.9 95.1 95.2C95.1 95 95 94.9 95 94.8C95.4 94.9 95.9 95 96.5 95C98.6 95 101.5 93.9 105 92.1C109 95.3 113.1 99 117.1 103.1C129 114.9 137.9 127.1 140.5 134.3C136 132.8 129.7 128.8 122.7 123.2C119.1 118.8 115 114.2 110.5 109.7ZM107 91C108.7 90 110.5 88.8 112.3 87.5C115.9 90.5 119.4 93.8 123 97.3C132.4 106.7 140 116.4 144 123.6C136.8 119.6 127.1 112 117.7 102.6C113.7 98.7 110.2 94.8 107 91ZM106.5 90.4C104.5 87.9 102.6 85.5 101 83.1C101 83.1 101 83.1 101.1 83.1C102.1 82.5 103.1 81.8 104.1 81.1C106.6 82.8 109.1 84.8 111.8 87C109.9 88.3 108.2 89.4 106.5 90.4ZM104.8 80.7C107.7 78.6 110.8 76.3 113.9 73.6C116.3 75.4 118.8 77.4 121.4 79.5C118.2 82.2 115.2 84.6 112.4 86.6C109.8 84.4 107.2 82.4 104.8 80.7ZM147.7 26C148.9 27.2 148.6 29.7 147.1 33.2C141.5 35.5 133.8 40.8 125.5 48.1C132.8 39.8 138.1 32.2 140.5 26.6C143.9 25.1 146.5 24.9 147.7 26ZM140.5 18.9C141.7 20.1 141.4 22.6 140 26C136.1 27.7 131.3 30.7 125.9 34.8C128 32.1 129.8 29.5 131.4 27C133.4 23.8 134.8 21 135.5 18.7C137.9 17.9 139.6 18 140.5 18.9ZM134.7 13.1C135.6 14 135.7 15.7 134.9 18.1C132.6 18.8 129.8 20.2 126.6 22.2C121.9 25.1 116.6 29.2 111.2 33.9C117.5 26.8 122.3 20.1 125 14.8C129.7 12.4 133.2 11.6 134.7 13.1ZM89.1 27.9C103.2 13.8 117.9 3.9 124 3.9C125 3.9 125.7 4.1 126.2 4.6C127.7 6.1 126.9 9.6 124.5 14.3C123.3 14.9 122.1 15.6 120.8 16.4C113.6 20.8 105.2 27.8 97 35.9C93.5 39.4 90.2 43 87.3 46.4C85.2 43.5 82.8 40.5 80.2 37.4C82.9 34.3 85.9 31.1 89.1 27.9ZM33.2 4.6C37 0.9 54 11.6 70.4 27.9C73.6 31.1 76.6 34.3 79.3 37.4C76.6 40.5 74.2 43.5 72.2 46.4C69.2 43 65.9 39.4 62.4 35.9C54.3 27.8 45.8 20.8 38.7 16.4C37.4 15.6 36.1 14.9 35 14.3C32.5 9.6 31.8 6.1 33.2 4.6ZM24.8 13.1C26.2 11.6 29.7 12.4 34.4 14.8C37.2 20.1 42 26.8 48.3 33.9C42.9 29.2 37.6 25.1 32.9 22.2C29.6 20.2 26.8 18.8 24.5 18.1C23.8 15.7 23.9 14 24.8 13.1ZM19 18.9C19.9 18 21.6 17.9 24 18.7C24.7 21 26.1 23.8 28.1 27C29.6 29.5 31.5 32.1 33.5 34.8C28.2 30.7 23.3 27.7 19.5 26C18 22.6 17.8 20.1 19 18.9ZM11.8 26C13 24.9 15.5 25.1 18.9 26.6C21.3 32.2 26.6 39.8 33.9 48.1C25.6 40.8 17.9 35.5 12.3 33.2C10.9 29.7 10.7 27.2 11.8 26ZM28 70.2C11.6 53.9 0.9 36.9 4.7 33.2C5.2 32.7 5.9 32.4 6.9 32.4C8.2 32.4 9.8 32.9 11.8 33.7C12.6 35.5 13.7 37.6 15.1 39.9C19.6 47.1 26.5 55.5 34.7 63.6C38.1 67 41.6 70.2 45 73.1C42.6 74.9 40.1 76.9 37.5 79.1C34.4 76.4 31.2 73.4 28 70.2ZM4.7 125.9C0.9 122.2 11.6 105.2 28 88.8C31.2 85.7 34.4 82.7 37.5 80C40.7 82.7 43.7 85.1 46.5 87.1C43.1 90 39.5 93.3 36 96.8C25.9 106.9 18.1 116.9 14.3 124.2C9.6 126.6 6.1 127.4 4.7 125.9ZM13.1 134.4C11.7 132.9 12.4 129.4 14.9 124.7C20.2 122 26.8 117.2 33.9 110.9C25.7 120.3 20 128.9 18.2 134.6C15.8 135.3 14.1 135.3 13.1 134.4ZM19 140.2C18 139.2 18 137.5 18.7 135.2C22.8 133.8 28.5 130.5 34.9 125.6C32.8 128.3 31 130.9 29.4 133.4C28 135.7 26.9 137.8 26.1 139.6C22.6 141.1 20.1 141.3 19 140.2ZM26.1 147.3C25 146.2 25.2 143.7 26.6 140.2C28.5 139.4 30.6 138.3 32.9 136.8C37.6 133.9 42.9 129.9 48.3 125.2C40.9 133.5 35.6 141.2 33.2 146.8C29.8 148.2 27.3 148.5 26.1 147.3ZM70.4 131.1C56.2 145.3 41.6 155.2 35.5 155.2C34.5 155.2 33.8 154.9 33.2 154.4C32.1 153.2 32.3 150.7 33.8 147.3C41.3 144.1 52.4 135.8 63.8 124.5C67.2 121.1 70.4 117.6 73.3 114.2C75.1 116.6 77.1 119.1 79.3 121.6C76.6 124.8 73.6 128 70.4 131.1ZM126.2 154.4C122.5 158.2 105.5 147.5 89.1 131.1C85.9 128 82.9 124.8 80.2 121.6C82.4 119.1 84.4 116.6 86.2 114.2C89.1 117.6 92.3 121.1 95.7 124.5C107.1 135.8 118.2 144.1 125.7 147.3C127.1 150.7 127.4 153.2 126.2 154.4ZM133.4 147.3C132.2 148.5 129.6 148.2 126.2 146.8C123.8 141.2 118.5 133.5 111.2 125.2C116.6 129.9 121.9 133.9 126.6 136.8C128.9 138.3 131 139.4 132.8 140.2C134.3 143.7 134.5 146.2 133.4 147.3ZM140.5 140.2C139.4 141.3 136.9 141.1 133.4 139.6C132.6 137.8 131.5 135.7 130 133.4C128.5 130.9 126.7 128.3 124.6 125.6C131 130.5 136.6 133.8 140.8 135.2C141.5 137.5 141.4 139.2 140.5 140.2ZM146.3 134.4C145.4 135.3 143.7 135.3 141.3 134.6C139.5 128.9 133.8 120.3 125.5 110.9C132.6 117.2 139.3 122 144.6 124.7C147.1 129.4 147.8 132.9 146.3 134.4ZM154.8 125.9C153.4 127.4 149.9 126.6 145.1 124.2C141.3 116.9 133.6 106.9 123.5 96.8C120 93.3 116.4 90 112.9 87.1C115.8 85.1 118.8 82.7 121.9 80C125.1 82.7 128.3 85.7 131.4 88.8C139.6 96.9 146.5 105.3 150.9 112.4C155.1 119.2 156.6 124.1 154.8 125.9ZM154.8 125.9"/></symbol>
   <!-- Brand icons: Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com - License: https://fontawesome.com/license/free (Icons: CC BY 4.0) -->
   <symbol id="i-instagram" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></symbol>
@@ -590,6 +773,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
       <a href="#en-vivo">En vivo</a>
       <a href="#eventos">Eventos</a>
       <a class="cta" href="#contacto">Contacto</a>
+      <div class="lang" role="group" aria-label="Idioma">
+        <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
+        <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+      </div>
     </nav>
   </div>
 </header>
@@ -610,11 +797,8 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
           <a class="btn" href="#contacto">Contratar</a>
         </div>
       </div>
-      <figure class="portrait" id="portrait" tabindex="0" role="button" aria-pressed="false" aria-label="Foto de MD KTRL. Actívala para revelar su versión enmascarada">
+      <figure class="portrait" id="portrait">
         <img src="img/md-ktrl-rostro.webp" alt="Marcelo López, MD KTRL, de perfil con lentes oscuros sobre un fondo de papel aluminio" width="1000" height="1504" fetchpriority="high">
-        <span class="hidden-self" aria-hidden="true"><img src="img/md-ktrl.webp" alt="" width="1600" height="2400"></span>
-        <canvas class="trail" aria-hidden="true"></canvas>
-        <span class="hint" aria-hidden="true"><span class="mouse">Pasa el cursor por la foto</span><span class="touch">Toca la foto</span></span>
         <span class="float" aria-hidden="true"><svg class="glyph"><use href="#logo"/></svg></span>
         <figcaption><b>2025</b>Producer &amp; DJ</figcaption>
       </figure>
@@ -645,6 +829,27 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
       </div>
     </div>
   </div>
+
+  <section id="destacado" class="spot">
+    <div class="wrap">
+      <div class="sec-head"><h2>Destacado</h2><span class="label">Del álbum <b>12</b></span></div>
+      <article class="spot-card">
+        <div class="spot-art">
+          <img src="img/12.webp" alt="Portada del álbum 12 de MD KTRL" width="540" height="540" loading="lazy">
+          <button class="play big" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+        </div>
+        <div class="spot-body">
+          <span class="label">Club edit · <b>12</b></span>
+          <h3>Soledad</h3>
+          <p>Dale play desde aquí. El mini reproductor te acompaña mientras recorres la página.</p>
+          <div class="links">
+            <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" target="_blank" rel="noopener">Abrir en SoundCloud</a>
+            <a class="listen" href="#musica">Ver la discografía</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
 
   <section id="sobre-mi">
     <div class="wrap">
@@ -703,7 +908,11 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>12<small>Primer álbum de electrónica</small></h3>
             <div class="more">
               <p>Paisajes electrónicos cargados de emociones complejas. Texturas envolventes y ritmos sutiles que generan tensión y calma a la vez, en un viaje introspectivo que se queda en la memoria.</p>
-              <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" data-title="12" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/soledad-club-edit" data-title="Soledad (Club Edit)" data-artist="MD KTRL" data-cover="img/12.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Soledad · Club Edit</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/12a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">Álbum</span>
@@ -718,7 +927,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>Rest in Beats<small>Álbum de instrumentales</small></h3>
             <div class="more">
               <p>Alterna calma, esperanza y alegría con pasajes de tensión y emociones más oscuras. Un rango amplio, pensado para el oyente y para el artista que busca base.</p>
-              <a class="listen" href="https://soundcloud.com/boness6/sets/rest-in-beats" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/rest-in-beats" data-title="Rest in Beats" data-artist="Bness" data-cover="img/rest-in-beats.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/boness6/sets/rest-in-beats" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">Beats</span>
@@ -733,7 +945,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>Raw Tapes: Pluggnb<small>EP de instrumentales</small></h3>
             <div class="more">
               <p>La cara más suave del trap. Melodías dulces, atmósferas etéreas y percusiones delicadas que transmiten calma, amor y nostalgia.</p>
-              <a class="listen" href="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" data-title="Raw Tapes: Pluggnb" data-artist="Bness" data-cover="img/raw-tapes-pluggnb.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/boness6/sets/raw-tapes-pluggnb" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">Beats</span>
@@ -748,7 +963,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>La Receta<small>EP · cuatro tracks</small></h3>
             <div class="more">
               <p>Nació sin plan, de la improvisación y de explorar el sampleo en la electrónica. Cuatro tracks de esencia house hechos para el movimiento, el baile y las sonrisas.</p>
-              <a class="listen" href="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" data-title="La Receta" data-artist="MD KTRL" data-cover="img/la-receta.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/dino-lopez-548405551/sets/la-receta-ep" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">EP</span>
@@ -778,7 +996,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>13<small>EP de electrónica</small></h3>
             <div class="more">
               <p>Electrónica oscura y atmosférica. Paisajes sonoros densos, con texturas y ritmos envolventes. Precisión técnica y emoción cruda, con tensión y misterio de principio a fin.</p>
-              <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" data-title="13" data-artist="MD KTRL" data-cover="img/13.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/marcelo-lopez-456835638/sets/13a" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">EP</span>
@@ -793,7 +1014,10 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
             <h3>Key<small>Primera recopilación de instrumentales</small></h3>
             <div class="more">
               <p>Álbum boom bap basado en el sampleo, de atmósfera mística y oscura con destellos de luz y delicadeza. Cada beat está pensado para conectar con artistas del género.</p>
-              <a class="listen" href="https://soundcloud.com/boness6/sets/key" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              <div class="links">
+                <button class="play" type="button" data-sc="https://soundcloud.com/boness6/sets/key" data-title="Key" data-artist="Bness" data-cover="img/key.webp"><svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg><span class="t-play">Reproducir</span><span class="t-pause">Pausar</span></button>
+                <a class="listen" href="https://soundcloud.com/boness6/sets/key" target="_blank" rel="noopener">Escuchar en SoundCloud</a>
+              </div>
             </div>
           </div>
           <span class="tag">Beats</span>
@@ -815,6 +1039,33 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
           </ul>
           <a class="btn solid" href="https://soundcloud.com/boness6" target="_blank" rel="noopener">Ver el catálogo de beats <span class="arr" aria-hidden="true">&rarr;</span></a>
         </div>
+      </div>
+
+      <div class="lic" id="licencias">
+        <div class="lic-head">
+          <h3>Licencias de beats</h3>
+          <p>Elige cómo quieres usar un beat. Cotiza por WhatsApp y recibe el precio y las condiciones por escrito.</p>
+        </div>
+        <ul class="lic-grid">
+          <li>
+            <span class="label">Uso compartido</span>
+            <h4>No exclusiva</h4>
+            <p>Usas el beat en tu canción. El mismo beat puede seguir en el catálogo para otros artistas.</p>
+            <button class="btn" type="button" data-quote="no-exclusiva">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li>
+            <span class="label">Solo tuyo</span>
+            <h4>Exclusiva</h4>
+            <p>El beat sale del catálogo y queda solo para ti.</p>
+            <button class="btn" type="button" data-quote="exclusiva">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+          <li>
+            <span class="label">Para mezclar</span>
+            <h4>Stems y mezcla</h4>
+            <p>Las pistas separadas del beat, para que tu ingeniero o tú lo mezclen con tu voz.</p>
+            <button class="btn" type="button" data-quote="stems">Cotizar <span class="arr" aria-hidden="true">&rarr;</span></button>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -945,13 +1196,66 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
         <div>
           <span class="label">Contratación · beats · producción</span>
           <h2>Hablemos<span>.</span></h2>
-          <a class="btn solid" href="https://wa.me/51944310246" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arr" aria-hidden="true">&rarr;</span></a>
+          <form class="hire" id="hire" novalidate>
+            <div class="field">
+              <label for="h-type">Qué necesitas</label>
+              <select id="h-type">
+                <option value="set">Un set de DJ</option>
+                <option value="prod">Producción musical</option>
+                <option value="beat">Comprar un beat</option>
+                <option value="otro">Otra cosa</option>
+              </select>
+            </div>
+            <div class="field" id="h-lic-wrap" hidden>
+              <label for="h-lic">Licencia</label>
+              <select id="h-lic">
+                <option value="">Aún no sé</option>
+                <option value="no-exclusiva">No exclusiva</option>
+                <option value="exclusiva">Exclusiva</option>
+                <option value="stems">Stems y mezcla</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="h-name">Tu nombre</label>
+              <input id="h-name" type="text" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="h-date">Fecha</label>
+              <input id="h-date" type="date">
+            </div>
+            <div class="field">
+              <label for="h-city">Ciudad o lugar</label>
+              <input id="h-city" type="text" autocomplete="address-level2">
+            </div>
+            <div class="field wide">
+              <label for="h-msg">Detalles (duración, presupuesto, referencias)</label>
+              <textarea id="h-msg" rows="3"></textarea>
+            </div>
+            <div class="hire-actions">
+              <button class="btn solid" type="submit">Abrir WhatsApp <span class="arr" aria-hidden="true">&rarr;</span></button>
+              <button class="btn" type="button" id="h-copy">Copiar mensaje</button>
+            </div>
+            <p class="fine" id="h-status" aria-live="polite">Se abre WhatsApp con el mensaje ya escrito. Esta página no guarda lo que escribes.</p>
+          </form>
         </div>
         <div class="rows">
           <div class="row">
             <span class="label">Correo</span>
             <a class="val" id="v-mail" href="mailto:mdkrvzy@gmail.com">mdkrvzy@gmail.com</a>
             <button class="copy" type="button" id="c-mail" data-src="v-mail">Copiar</button>
+          </div>
+          <div class="row">
+            <span class="label">WhatsApp</span>
+            <a class="val" id="v-tel" href="https://wa.me/51944310246" target="_blank" rel="noopener">+51 944 310 246</a>
+            <button class="copy" type="button" id="c-tel" data-src="v-tel">Copiar</button>
+          </div>
+          <div class="row tools">
+            <span class="label">Llévalo contigo</span>
+            <div class="tool-btns">
+              <a class="btn" href="press-kit/MD-KTRL-press-kit.pdf" download>Press kit · PDF 18 MB</a>
+              <a class="btn" href="mdktrl.vcf" download>Guardar contacto</a>
+              <button class="btn" type="button" id="share"><span id="share-t">Compartir esta página</span></button>
+            </div>
           </div>
           <div class="row social">
             <span class="label">Redes</span>
@@ -983,6 +1287,22 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
   </div>
 </footer>
 
+<div class="dock" id="dock" role="region" aria-label="Reproductor" hidden>
+  <div class="dock-in">
+    <button class="dock-play" id="dock-toggle" type="button" aria-label="Reproducir">
+      <svg class="ico i-p" aria-hidden="true"><use href="#i-play"/></svg><svg class="ico i-q" aria-hidden="true"><use href="#i-pause"/></svg>
+    </button>
+    <div class="dock-info"><b id="dock-title">MD KTRL</b><span class="label" id="dock-artist" aria-live="polite"></span></div>
+    <div class="dock-seek">
+      <span id="dock-cur">0:00</span>
+      <input type="range" id="dock-range" min="0" max="1000" value="0" aria-label="Posición del track">
+      <span id="dock-dur">0:00</span>
+    </div>
+    <a class="dock-open" id="dock-open" href="https://soundcloud.com/boness6" target="_blank" rel="noopener">SoundCloud</a>
+    <button class="dock-close" id="dock-close" type="button" aria-label="Cerrar reproductor">&times;</button>
+  </div>
+</div>
+
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1013,11 +1333,11 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
   document.querySelectorAll('.copy').forEach(function (b) {
     b.addEventListener('click', function () {
       var el = document.getElementById(b.getAttribute('data-src'));
-      var done = function () { b.textContent = 'Copiado'; setTimeout(function () { b.textContent = 'Copiar'; }, 1600); };
+      var done = function () { b.textContent = MDK.t('Copiado'); setTimeout(function () { b.textContent = MDK.t('Copiar'); }, 1600); };
       var fallback = function () {
         var r = document.createRange(); r.selectNodeContents(el);
         var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-        b.textContent = 'Seleccionado'; setTimeout(function () { b.textContent = 'Copiar'; }, 1600);
+        b.textContent = MDK.t('Seleccionado'); setTimeout(function () { b.textContent = MDK.t('Copiar'); }, 1600);
       };
       try {
         navigator.clipboard.writeText(el.textContent.trim()).then(done, fallback);
@@ -1050,115 +1370,399 @@ footer .sig:hover .glyph { transform: rotate(180deg); }
     });
   }
 
-  /* Retrato: rastro de humo que deja ver al MD KTRL enmascarado; clic, toque o Enter lo revela completo */
-  if (portrait) {
-    var open = false;
-    var full = function () { return Math.hypot(portrait.clientWidth, portrait.clientHeight) * 1.05; };
-
-    var hiddenImg = portrait.querySelector('.hidden-self img');
-    var trail = portrait.querySelector('.trail');
-    var tctx = trail && trail.getContext ? trail.getContext('2d') : null;
-    if (tctx) {
-      var mask = document.createElement('canvas'), mctx = mask.getContext('2d');
-      var brush = document.createElement('canvas');
-      var TW = 0, TH = 0, TD = 1, BR = 60, LIFE = 1200, pts = [], last = null, running = false;
-      var sizeTrail = function () {
-        TD = Math.min(window.devicePixelRatio || 1, 2);
-        TW = portrait.clientWidth; TH = portrait.clientHeight;
-        [trail, mask].forEach(function (c) { c.width = Math.round(TW * TD); c.height = Math.round(TH * TD); });
-        tctx.setTransform(TD, 0, 0, TD, 0, 0); mctx.setTransform(TD, 0, 0, TD, 0, 0);
-        BR = Math.max(44, TW * 0.15);
-        var bs = Math.ceil(BR * 2 * TD);
-        brush.width = brush.height = bs;
-        var b = brush.getContext('2d');
-        var g = b.createRadialGradient(bs / 2, bs / 2, 0, bs / 2, bs / 2, bs / 2);
-        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.5, 'rgba(0,0,0,.8)'); g.addColorStop(1, 'rgba(0,0,0,0)');
-        b.fillStyle = g; b.fillRect(0, 0, bs, bs);
-      };
-      var coverRect = function () {
-        var iw = hiddenImg.naturalWidth, ih = hiddenImg.naturalHeight;
-        var s = Math.max(TW / iw, TH / ih), w = iw * s, h = ih * s, k = 1.08;
-        var x = (TW - w) * 0.5, y = (TH - h) * 0.3;
-        return [TW / 2 + (x - TW / 2) * k, TH / 2 + (y - TH / 2) * k, w * k, h * k];
-      };
-      var paint = function () {
-        var now = performance.now();
-        pts = pts.filter(function (p) { return now - p.t < LIFE; });
-        mctx.clearRect(0, 0, TW, TH);
-        pts.forEach(function (p) {
-          var age = (now - p.t) / LIFE;
-          mctx.globalAlpha = Math.pow(1 - age, 1.6);
-          mctx.drawImage(brush, p.x - p.r, p.y - p.r, p.r * 2, p.r * 2);
-        });
-        mctx.globalAlpha = 1;
-        tctx.clearRect(0, 0, TW, TH);
-        if (pts.length && hiddenImg.complete && hiddenImg.naturalWidth) {
-          tctx.drawImage(mask, 0, 0, TW, TH);
-          tctx.globalCompositeOperation = 'source-in';
-          var r = coverRect();
-          tctx.drawImage(hiddenImg, r[0], r[1], r[2], r[3]);
-          tctx.globalCompositeOperation = 'source-over';
-        }
-        if (pts.length) requestAnimationFrame(paint); else running = false;
-      };
-      var addPoint = function (x, y) {
-        var now = performance.now();
-        if (last) {
-          var dx = x - last.x, dy = y - last.y, d = Math.hypot(dx, dy);
-          var n = Math.min(24, Math.ceil(d / (BR * 0.28)));
-          for (var i = 1; i <= n; i++) {
-            pts.push({
-              x: last.x + dx * i / n + (Math.random() - .5) * BR * .3,
-              y: last.y + dy * i / n + (Math.random() - .5) * BR * .3,
-              r: BR * (0.8 + Math.random() * 0.4), t: now
-            });
-          }
-        } else {
-          pts.push({ x: x, y: y, r: BR, t: now });
-        }
-        last = { x: x, y: y };
-        if (!running) { running = true; requestAnimationFrame(paint); }
-      };
-      sizeTrail();
-      if ('ResizeObserver' in window) new ResizeObserver(sizeTrail).observe(portrait);
-      else window.addEventListener('resize', sizeTrail);
-      portrait.addEventListener('pointermove', function (e) {
-        if (e.pointerType !== 'mouse' || open) return;
-        var r = portrait.getBoundingClientRect();
-        addPoint(e.clientX - r.left, e.clientY - r.top);
+  /* Idioma: el español es el texto de la página; el inglés se aplica con un diccionario */
+  window.MDK = window.MDK || { t: function (x) { return x; } };
+  var EN = {
+    "MD KTRL, inicio": "MD KTRL, home",
+    "Principal": "Main",
+    "Sobre mí": "About",
+    "Música": "Music",
+    "Colaboraciones": "Collaborations",
+    "En vivo": "Live",
+    "Eventos": "Events",
+    "Contacto": "Contact",
+    "Idioma": "Language",
+    "Productor <b>&amp;</b> DJ": "Producer <b>&amp;</b> DJ",
+    "Tacna, Perú": "Tacna, Peru",
+    "Hip hop, trap y música electrónica. Beats, producción para otros artistas y sets en vivo.": "Hip hop, trap and electronic music. Beats, production for other artists and live sets.",
+    "Escuchar": "Listen",
+    "Contratar": "Book",
+    "Marcelo López, MD KTRL, de perfil con lentes oscuros sobre un fondo de papel aluminio": "Marcelo López, MD KTRL, in profile wearing dark glasses against an aluminum foil background",
+    "Géneros": "Genres",
+    "Electrónica": "Electronic",
+    "Destacado": "Featured",
+    "Del álbum <b>12</b>": "From the album <b>12</b>",
+    "Portada del álbum 12 de MD KTRL": "Cover of MD KTRL's album 12",
+    "Reproducir": "Play",
+    "Pausar": "Pause",
+    "Dale play desde aquí. El mini reproductor te acompaña mientras recorres la página.": "Hit play right here. The mini player stays with you as you scroll through the page.",
+    "Abrir en SoundCloud": "Open on SoundCloud",
+    "Ver la discografía": "See the discography",
+    "Marcelo López, conocido como MD KTRL, forjó su identidad explorando géneros sin quedarse en ninguno.": "Marcelo López, known as MD KTRL, built his identity by exploring genres without settling on any one.",
+    "Lo atrajo la libertad del hip hop, la profundidad atmosférica del trap y la energía hipnótica de la electrónica. En ellos encontró un lenguaje propio y empezó a producir música que refleja estados de ánimo, pensamientos y visiones.": "He was drawn to the freedom of hip hop, the atmospheric depth of trap and the hypnotic energy of electronic music. In them he found a language of his own and began producing music that reflects moods, thoughts and visions.",
+    "Ha producido para Jeydee Psycho, Dekaesse, Oriel X, Mr. Bless y DJ Azúcar, y para los colectivos Black Flow y Fire in the Ghetto. En la electrónica, su álbum <em>12</em> salió el 27 de enero de 2025, después del EP <em>13</em>, de abril de 2024.": "He has produced for Jeydee Psycho, Dekaesse, Oriel X, Mr. Bless and DJ Azúcar, and for the collectives Black Flow and Fire in the Ghetto. In electronic music, his album <em>12</em> came out on January 27, 2025, after the EP <em>13</em> in April 2024.",
+    "Lanzamientos": "Releases",
+    "Discografía": "Discography",
+    "Filtrar por tipo": "Filter by type",
+    "Todo": "All",
+    "Producción": "Production",
+    "11 abr 2025": "Apr 11, 2025",
+    "Portada de In the Fusion, de Jeydee Psycho": "In the Fusion cover, by Jeydee Psycho",
+    "Jeydee Psycho · instrumentales de MD KTRL": "Jeydee Psycho · instrumentals by MD KTRL",
+    "Álbum de nueve temas urbanos, del boom bap al reggaetón, con Aflexx, CVN Centena, Dekaesse, Lucciana Z y eHori. Los beats vienen de <em>Key</em>.": "A nine-track urban album, from boom bap to reggaeton, featuring Aflexx, CVN Centena, Dekaesse, Lucciana Z and eHori. The beats come from <em>Key</em>.",
+    "27 ene 2025": "Jan 27, 2025",
+    "Primer álbum de electrónica": "First electronic album",
+    "Paisajes electrónicos cargados de emociones complejas. Texturas envolventes y ritmos sutiles que generan tensión y calma a la vez, en un viaje introspectivo que se queda en la memoria.": "Electronic landscapes loaded with complex emotions. Enveloping textures and subtle rhythms create tension and calm at once, in an introspective journey that stays in your memory.",
+    "Escuchar en SoundCloud": "Listen on SoundCloud",
+    "Álbum": "Album",
+    "25 nov 2024": "Nov 25, 2024",
+    "Álbum de instrumentales": "Instrumentals album",
+    "Alterna calma, esperanza y alegría con pasajes de tensión y emociones más oscuras. Un rango amplio, pensado para el oyente y para el artista que busca base.": "Alternates calm, hope and joy with passages of tension and darker emotions. A wide range, made for the listener and for the artist looking for a base.",
+    "26 sep 2024": "Sep 26, 2024",
+    "EP de instrumentales": "Instrumentals EP",
+    "La cara más suave del trap. Melodías dulces, atmósferas etéreas y percusiones delicadas que transmiten calma, amor y nostalgia.": "The softer side of trap. Sweet melodies, ethereal atmospheres and delicate percussion that convey calm, love and nostalgia.",
+    "26 jun 2024": "Jun 26, 2024",
+    "EP · cuatro tracks": "EP · four tracks",
+    "Nació sin plan, de la improvisación y de explorar el sampleo en la electrónica. Cuatro tracks de esencia house hechos para el movimiento, el baile y las sonrisas.": "Born without a plan, from improvisation and from exploring sampling in electronic music. Four house-flavored tracks made for movement, dancing and smiles.",
+    "2 jun 2024": "Jun 2, 2024",
+    "Oriel X · producida en Lattice Rekords": "Oriel X · produced at Lattice Rekords",
+    "Primera canción de Oriel X, del Callao. MD KTRL lo acompañó desde la composición hasta la masterización. Salió en todas las plataformas.": "Oriel X's first song, from Callao. MD KTRL guided him from writing through mastering. It was released on all streaming platforms.",
+    "Ver el videoclip en YouTube": "Watch the music video on YouTube",
+    "12 abr 2024": "Apr 12, 2024",
+    "EP de electrónica": "Electronic EP",
+    "Electrónica oscura y atmosférica. Paisajes sonoros densos, con texturas y ritmos envolventes. Precisión técnica y emoción cruda, con tensión y misterio de principio a fin.": "Dark, atmospheric electronic music. Dense soundscapes with enveloping textures and rhythms. Technical precision and raw emotion, with tension and mystery from start to finish.",
+    "8 abr 2024": "Apr 8, 2024",
+    "Primera recopilación de instrumentales": "First instrumentals collection",
+    "Álbum boom bap basado en el sampleo, de atmósfera mística y oscura con destellos de luz y delicadeza. Cada beat está pensado para conectar con artistas del género.": "A sample-based boom bap album with a mystical, dark atmosphere and flashes of light and delicacy. Every beat is made to connect with artists in the genre.",
+    "Afiche de Bness Beatmaker: instrumentales en 3x2, con código QR al catálogo": "Bness Beatmaker poster: instrumentals 3 for 2, with a QR code to the catalog",
+    "Instrumentales en 3x2": "Instrumentals, 3 for 2",
+    "Bness es el perfil anónimo de beatmaker de MD KTRL. Ahí están sus 48 beats, en promoción de tres por el precio de dos.": "Bness is MD KTRL's anonymous beatmaker profile. His 48 beats are there, on a three-for-the-price-of-two promotion.",
+    "Puedes pagarlos con:": "You can pay for them with:",
+    "Efectivo": "Cash",
+    "Donaciones": "Donations",
+    "Juguetes para niños": "Toys for children",
+    "Comida para animales de albergues": "Food for shelter animals",
+    "Ver el catálogo de beats": "See the beat catalog",
+    "Licencias de beats": "Beat licenses",
+    "Elige cómo quieres usar un beat. Cotiza por WhatsApp y recibe el precio y las condiciones por escrito.": "Choose how you want to use a beat. Get a quote on WhatsApp and receive the price and terms in writing.",
+    "Uso compartido": "Shared use",
+    "No exclusiva": "Non-exclusive",
+    "Usas el beat en tu canción. El mismo beat puede seguir en el catálogo para otros artistas.": "You use the beat in your song. The same beat can stay in the catalog for other artists.",
+    "Cotizar": "Get a quote",
+    "Solo tuyo": "Yours alone",
+    "Exclusiva": "Exclusive",
+    "El beat sale del catálogo y queda solo para ti.": "The beat leaves the catalog and is yours alone.",
+    "Para mezclar": "For mixing",
+    "Stems y mezcla": "Stems and mixing",
+    "Las pistas separadas del beat, para que tu ingeniero o tú lo mezclen con tu voz.": "The beat's separate tracks, so your engineer or you can mix it with your vocals.",
+    "Contraportada de In the Fusion con la lista de temas": "Back cover of In the Fusion with the track list",
+    "Álbum · 2025": "Album · 2025",
+    "Fundador del colectivo Black Flow. Compró los beats <em>Ruby Pt. I</em> y <em>Temple</em>, de <em>Key</em>, para su álbum <em>In the Fusion</em>.": "Founder of the Black Flow collective. He bought the beats <em>Ruby Pt. I</em> and <em>Temple</em>, from <em>Key</em>, for his album <em>In the Fusion</em>.",
+    "Canción · 2024": "Song · 2024",
+    "Artista del puerto del Callao. Hizo su primera canción en el estudio Lattice Rekords. MD KTRL lo guio hasta plasmar sus ideas y cerrar juntos su primer proyecto.": "An artist from the port city of Callao. He made his first song at the Lattice Rekords studio. MD KTRL guided him to put his ideas into shape and finish his first project together.",
+    "Portada del próximo single de Mr. Bless": "Cover of Mr. Bless's upcoming single",
+    "Por estrenar": "Coming soon",
+    "Mr. Bless es Juan Sánchez, rapero cristiano. Su mensaje consciente, el scratch de DJ Azúcar y la producción de MD KTRL se juntan en una canción lista para salir.": "Mr. Bless is Juan Sánchez, a Christian rapper. His conscious message, DJ Azúcar's scratching and MD KTRL's production come together in a song ready for release.",
+    "También con": "Also with",
+    "Sonido · DJ · Sets": "Sound · DJ · Sets",
+    "Campamentos y 24 horas de música electrónica en la naturaleza. MD KTRL estuvo en sus dos eventos post-sala.": "Camping and 24 hours of electronic music in nature. MD KTRL played at both of its after-parties.",
+    "Ver en Instagram": "See on Instagram",
+    "Afiche de Sunday Sessions, showcase de Misti Qhapaq y Quramanta": "Sunday Sessions poster, a Misti Qhapaq and Quramanta showcase",
+    "Primer post-sala": "First after-party",
+    "Showcase de Misti Qhapaq y Quramanta. Domingo desde las 4:00 pm, en ubicación secreta.": "Misti Qhapaq and Quramanta showcase. Sunday from 4:00 pm, at a secret location.",
+    "<b>Rol</b>Soporte con equipos de sonido y controladores de DJ.": "<b>Role</b>Support with sound equipment and DJ controllers.",
+    "Afiche de la segunda post-sala: Habemus terraza": "Poster for the second after-party: Habemus terraza",
+    "Segundo post-sala": "Second after-party",
+    "De 4:30 a 9:30 pm. Con la pulsera del festival, la entrada era libre.": "4:30 to 9:30 pm. With the festival wristband, entry was free.",
+    "Además de tocar, MD KTRL apoya eventos con equipos de sonido y controladores de DJ.": "Besides playing, MD KTRL supports events with sound equipment and DJ controllers.",
+    "Producción y diseño": "Production and design",
+    "Eventos · afiches": "Events · posters",
+    "Además de la música, MD KTRL trabaja en la producción de eventos y en el diseño de sus afiches.": "Besides music, MD KTRL works on event production and on designing event posters.",
+    "Afiche de Lattice, viernes 22 de noviembre, con MD.KTRL en el line-up": "Lattice poster, Friday November 22, with MD.KTRL on the lineup",
+    "Viernes 22 nov": "Friday Nov 22",
+    "MD.KTRL encabeza con un Xtended live set. Invitados: Rimaycuna (Ilo) y Jota (Tacna).": "MD.KTRL headlines with an Xtended live set. Guests: Rimaycuna (Ilo) and Jota (Tacna).",
+    "Afiche de KatanaSound: J-SKRT, 16 de febrero": "KatanaSound poster: J-SKRT, February 16",
+    "16 feb · 12:00 pm": "Feb 16 · 12:00 pm",
+    "Lattice y KatanaSound, con MDK en el cartel.": "Lattice and KatanaSound, with MDK on the bill.",
+    "Afiche de True House, domingo 27 de junio, Tacna": "True House poster, Sunday June 27, Tacna",
+    "Domingo 27 jun · 7 pm": "Sunday Jun 27 · 7 pm",
+    "Techno, house y trance en ubicación secreta. Tacna, ingreso limitado.": "Techno, house and trance at a secret location. Tacna, limited entry.",
+    "Afiche de Old Grooves": "Old Grooves poster",
+    "Afiche": "Poster",
+    "Diseño del afiche.": "Poster design.",
+    "Contratación · beats · producción": "Booking · beats · production",
+    "Hablemos": "Let's talk",
+    "Qué necesitas": "What do you need",
+    "Un set de DJ": "A DJ set",
+    "Producción musical": "Music production",
+    "Comprar un beat": "Buy a beat",
+    "Otra cosa": "Something else",
+    "Licencia": "License",
+    "Aún no sé": "Not sure yet",
+    "Tu nombre": "Your name",
+    "Fecha": "Date",
+    "Ciudad o lugar": "City or venue",
+    "Detalles (duración, presupuesto, referencias)": "Details (length, budget, references)",
+    "Abrir WhatsApp": "Open WhatsApp",
+    "Copiar mensaje": "Copy message",
+    "Se abre WhatsApp con el mensaje ya escrito. Esta página no guarda lo que escribes.": "WhatsApp opens with your message already written. This page doesn't store what you type.",
+    "Correo": "Email",
+    "Copiar": "Copy",
+    "Llévalo contigo": "Take it with you",
+    "Guardar contacto": "Save contact",
+    "Compartir esta página": "Share this page",
+    "Redes": "Social",
+    "Lattice Rekords · Tacna, Perú": "Lattice Rekords · Tacna, Peru",
+    "Reproductor": "Player",
+    "Posición del track": "Track position",
+    "Cerrar reproductor": "Close player",
+    "Hola MD KTRL, te escribo desde tu página web.": "Hi MD KTRL, I'm writing from your website.",
+    "Busco:": "Looking for:",
+    "Licencia:": "License:",
+    "Nombre:": "Name:",
+    "Fecha:": "Date:",
+    "Ciudad o lugar:": "City or venue:",
+    "Detalles:": "Details:",
+    "Se abrió WhatsApp con tu mensaje. Revísalo y envíalo desde ahí.": "WhatsApp opened with your message. Check it and send it from there.",
+    "Mensaje copiado.": "Message copied.",
+    "No se pudo copiar. El mensaje quedó en el campo de detalles.": "Couldn't copy. The message was placed in the details field.",
+    "Enlace copiado": "Link copied",
+    "No se pudo copiar": "Couldn't copy",
+    "Copiado": "Copied",
+    "Seleccionado": "Selected",
+    "Cargando…": "Loading…",
+    "No se pudo cargar. Ábrelo en SoundCloud.": "Couldn't load. Open it on SoundCloud.",
+    "Toca play para empezar": "Tap play to start"
+  };
+  var lang = 'es';
+  var i18nTargets = null;
+  var normTxt = function (t) { return t.replace(/\s+/g, ' ').trim(); };
+  var collectTargets = function () {
+    var out = [], claimed = [];
+    var inClaimed = function (el) { return claimed.some(function (c) { return c.contains(el); }); };
+    document.querySelectorAll('body *').forEach(function (el) {
+      if (el.closest('svg, script, style, textarea, [data-no-i18n]') || inClaimed(el)) return;
+      ['alt', 'aria-label', 'title'].forEach(function (a) {
+        if (el.hasAttribute(a)) out.push({ kind: 'attr', el: el, attr: a, orig: el.getAttribute(a), key: normTxt(el.getAttribute(a)) });
       });
-      portrait.addEventListener('pointerleave', function () { last = null; });
-    }
-    var at = function (x, y) {
-      portrait.style.setProperty('--cx', x + 'px');
-      portrait.style.setProperty('--cy', y + 'px');
-    };
-    var fromEvent = function (e) {
-      var r = portrait.getBoundingClientRect();
-      at(e.clientX - r.left, e.clientY - r.top);
-    };
-    var setR = function (v) { portrait.style.setProperty('--r', v + 'px'); };
-    var toggle = function () {
-      open = !open;
-      portrait.classList.toggle('open', open);
-      portrait.setAttribute('aria-pressed', String(open));
-      setR(open ? full() : 0);
-    };
-    portrait.addEventListener('pointerenter', function (e) {
-      if (e.pointerType === 'mouse') portrait.classList.add('peek');
+      var kids = Array.prototype.slice.call(el.children);
+      var emph = kids.some(function (k) { return /^(EM|B|STRONG)$/.test(k.tagName); });
+      var other = kids.some(function (k) { return !/^(EM|B|STRONG|BR)$/.test(k.tagName); });
+      if (emph && !other) {
+        claimed.push(el);
+        out.push({ kind: 'html', el: el, orig: el.innerHTML, key: normTxt(el.innerHTML) });
+        return;
+      }
+      Array.prototype.forEach.call(el.childNodes, function (n) {
+        if (n.nodeType === 3 && normTxt(n.nodeValue)) out.push({ kind: 'text', node: n, orig: n.nodeValue, key: normTxt(n.nodeValue) });
+      });
     });
-    portrait.addEventListener('pointerleave', function (e) {
-      if (e.pointerType === 'mouse') portrait.classList.remove('peek');
+    return out;
+  };
+  var applyLang = function (l) {
+    lang = l;
+    if (!i18nTargets) i18nTargets = collectTargets();
+    i18nTargets.forEach(function (t) {
+      var en = l === 'en' ? EN[t.key] : null;
+      if (t.kind === 'attr') t.el.setAttribute(t.attr, en || t.orig);
+      else if (t.kind === 'html') t.el.innerHTML = en || t.orig;
+      else {
+        var lead = t.orig.match(/^\s*/)[0], trail = t.orig.match(/\s*$/)[0];
+        t.node.nodeValue = en ? lead + en + trail : t.orig;
+      }
     });
-    portrait.addEventListener('click', function (e) {
-      if (!open && (e.clientX || e.clientY)) fromEvent(e);
-      toggle();
+    document.documentElement.lang = l;
+    document.title = l === 'en' ? 'MD KTRL · Producer & DJ' : 'MD KTRL · Productor y DJ';
+    document.querySelectorAll('.lang button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === l)); });
+    if (window.MDK.onLang) window.MDK.onLang();
+    try { localStorage.setItem('mdk-lang', l); } catch (e) {}
+  };
+  window.MDK.t = function (x) { return lang === 'en' && EN[x] ? EN[x] : x; };
+  window.MDK.keys = function () {
+    var seen = {};
+    collectTargets().forEach(function (t) { seen[t.key] = 1; });
+    return Object.keys(seen);
+  };
+  window.MDK.missing = function () { return window.MDK.keys().filter(function (k) { return !EN[k]; }); };
+  document.querySelectorAll('.lang button').forEach(function (b) {
+    b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); });
+  });
+  (function () {
+    var want = null;
+    try { want = new URLSearchParams(location.search).get('lang') || localStorage.getItem('mdk-lang'); } catch (e) {}
+    if (!want) want = /^es/i.test(navigator.language || 'es') ? 'es' : 'en';
+    if (want === 'en') applyLang('en');
+  })();
+
+  /* Reproductor: widget de SoundCloud con controles propios; se carga recién al primer play */
+  window.MDK = window.MDK || { t: function (x) { return x; } };
+  var dock = document.getElementById('dock');
+  if (dock) {
+    var byId = function (id) { return document.getElementById(id); };
+    var dTitle = byId('dock-title'), dArtist = byId('dock-artist'), dToggle = byId('dock-toggle'), dRange = byId('dock-range');
+    var dCur = byId('dock-cur'), dDur = byId('dock-dur'), dOpen = byId('dock-open'), dClose = byId('dock-close');
+    var scFrame = null, widget = null, current = null, playing = false, duration = 0, seeking = false, failTimer = null, nudge = null;
+    var fmtTime = function (ms) { var t = Math.max(0, Math.floor(ms / 1000)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); };
+    var setPct = function (rel) { dRange.style.setProperty('--p', (rel * 100).toFixed(1) + '%'); };
+
+    var sync = function () {
+      document.querySelectorAll('.play[data-sc]').forEach(function (b) {
+        var on = !!current && playing && b.getAttribute('data-sc') === current.url;
+        b.setAttribute('data-playing', String(on));
+        b.setAttribute('aria-label', MDK.t(on ? 'Pausar' : 'Reproducir') + ' ' + (b.getAttribute('data-title') || ''));
+      });
+      dToggle.setAttribute('data-playing', String(playing));
+      dToggle.setAttribute('aria-label', MDK.t(playing ? 'Pausar' : 'Reproducir') + (current ? ' ' + current.title : ''));
+      document.body.classList.toggle('is-playing', playing);
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
+    };
+    window.MDK.onLang = sync;
+    var fail = function () {
+      playing = false; sync();
+      dArtist.textContent = MDK.t('No se pudo cargar. Ábrelo en SoundCloud.');
+    };
+    var setMeta = function () {
+      if (!('mediaSession' in navigator) || !current || !window.MediaMetadata) return;
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: dTitle.textContent, artist: current.artist,
+        artwork: current.cover ? [{ src: new URL(current.cover, location.href).href }] : []
+      });
+      navigator.mediaSession.setActionHandler('play', function () { if (widget) widget.play(); });
+      navigator.mediaSession.setActionHandler('pause', function () { if (widget) widget.pause(); });
+    };
+    var bindWidget = function () {
+      var E = SC.Widget.Events;
+      widget.bind(E.READY, function () {
+        widget.play();
+        clearTimeout(nudge);
+        nudge = setTimeout(function () { if (!playing && current) dArtist.textContent = MDK.t('Toca play para empezar'); }, 2500);
+      });
+      widget.bind(E.PLAY, function () {
+        playing = true; clearTimeout(failTimer); clearTimeout(nudge); sync();
+        if (current) dArtist.textContent = current.artist;
+        widget.getDuration(function (d) { duration = d; dDur.textContent = fmtTime(d); });
+        widget.getCurrentSound(function (snd) { if (snd && snd.title) { dTitle.textContent = snd.title; setMeta(); } });
+      });
+      widget.bind(E.PAUSE, function () { playing = false; sync(); });
+      widget.bind(E.FINISH, function () { playing = false; sync(); });
+      widget.bind(E.PLAY_PROGRESS, function (e) {
+        if (seeking) return;
+        dRange.value = Math.round(e.relativePosition * 1000); setPct(e.relativePosition);
+        dCur.textContent = fmtTime(e.currentPosition);
+      });
+      widget.bind(E.ERROR, fail);
+    };
+    var start = function (b) {
+      current = {
+        url: b.getAttribute('data-sc'), title: b.getAttribute('data-title') || '',
+        artist: b.getAttribute('data-artist') || '', cover: b.getAttribute('data-cover') || ''
+      };
+      dock.hidden = false; document.body.classList.add('has-dock');
+      dTitle.textContent = current.title; dArtist.textContent = MDK.t('Cargando…');
+      dOpen.href = current.url; dRange.value = 0; setPct(0); dCur.textContent = '0:00'; dDur.textContent = '0:00';
+      clearTimeout(failTimer);
+      failTimer = setTimeout(function () { if (!playing) fail(); }, 9000);
+      var go = function () {
+        if (!scFrame) {
+          scFrame = document.createElement('iframe');
+          scFrame.className = 'sc-frame'; scFrame.title = 'SoundCloud'; scFrame.tabIndex = -1;
+          scFrame.setAttribute('allow', 'autoplay'); scFrame.setAttribute('aria-hidden', 'true');
+          scFrame.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(current.url) +
+            '&auto_play=true&visual=false&show_comments=false&hide_related=true&show_teaser=false';
+          document.body.appendChild(scFrame);
+          widget = SC.Widget(scFrame); bindWidget();
+        } else {
+          widget.load(current.url, {
+            auto_play: true, visual: false, show_comments: false, hide_related: true,
+            callback: function () { widget.play(); }
+          });
+        }
+      };
+      if (window.SC && SC.Widget) go();
+      else {
+        var api = document.createElement('script');
+        api.src = 'https://w.soundcloud.com/player/api.js'; api.onload = go; api.onerror = fail;
+        document.head.appendChild(api);
+      }
+      sync();
+    };
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('.play[data-sc]');
+      if (!b) return;
+      if (current && widget && b.getAttribute('data-sc') === current.url) { if (playing) widget.pause(); else widget.play(); }
+      else start(b);
     });
-    portrait.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
+    dToggle.addEventListener('click', function () {
+      if (!widget || !current) return;
+      if (playing) widget.pause(); else widget.play();
+    });
+    dRange.addEventListener('input', function () {
+      seeking = true; setPct(dRange.value / 1000); dCur.textContent = fmtTime(dRange.value / 1000 * duration);
+    });
+    dRange.addEventListener('change', function () {
+      seeking = false;
+      if (widget && duration) widget.seekTo(dRange.value / 1000 * duration);
+    });
+    dClose.addEventListener('click', function () {
+      if (widget && playing) widget.pause();
+      dock.hidden = true; document.body.classList.remove('has-dock');
+      clearTimeout(failTimer); clearTimeout(nudge);
+      current = null; playing = false; sync();
+    });
+    sync();
+  }
+
+  /* Contratar: arma el mensaje y abre WhatsApp */
+  var hire = document.getElementById('hire');
+  if (hire) {
+    var fld = function (id) { return document.getElementById(id); };
+    var optText = function (sel) { return sel.options[sel.selectedIndex].text; };
+    var buildMsg = function () {
+      var t = MDK.t, type = fld('h-type'), lic = fld('h-lic');
+      var lines = [t('Hola MD KTRL, te escribo desde tu página web.'), t('Busco:') + ' ' + optText(type)];
+      if (type.value === 'beat' && lic.value) lines.push(t('Licencia:') + ' ' + optText(lic));
+      var date = fld('h-date').value ? fld('h-date').value.split('-').reverse().join('/') : '';
+      [['Nombre:', fld('h-name').value], ['Fecha:', date], ['Ciudad o lugar:', fld('h-city').value], ['Detalles:', fld('h-msg').value]]
+        .forEach(function (p) { var v = p[1].trim(); if (v) lines.push(t(p[0]) + ' ' + v); });
+      return lines.join('\n');
+    };
+    var syncLic = function () { fld('h-lic-wrap').hidden = fld('h-type').value !== 'beat'; };
+    var say = function (txt) { fld('h-status').textContent = MDK.t(txt); };
+    fld('h-type').addEventListener('change', syncLic);
+    hire.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!open) at(portrait.clientWidth / 2, portrait.clientHeight * 0.4);
-      toggle();
+      var url = 'https://wa.me/51944310246?text=' + encodeURIComponent(buildMsg());
+      if (!window.open(url, '_blank', 'noopener')) window.location.href = url;
+      say('Se abrió WhatsApp con tu mensaje. Revísalo y envíalo desde ahí.');
+    });
+    fld('h-copy').addEventListener('click', function () {
+      var msg = buildMsg();
+      var ok = function () { say('Mensaje copiado.'); };
+      var no = function () { fld('h-msg').value = msg; say('No se pudo copiar. El mensaje quedó en el campo de detalles.'); };
+      try { navigator.clipboard.writeText(msg).then(ok, no); } catch (err) { no(); }
+    });
+    document.querySelectorAll('[data-quote]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        fld('h-type').value = 'beat'; syncLic(); fld('h-lic').value = b.getAttribute('data-quote');
+        fld('hire').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        setTimeout(function () { fld('h-name').focus({ preventScroll: true }); }, reduce ? 0 : 500);
+      });
+    });
+  }
+
+  /* Compartir la página: menú del sistema si existe; si no, copia el enlace */
+  var shareBtn = document.getElementById('share');
+  if (shareBtn) {
+    var shareT = document.getElementById('share-t');
+    var flash = function (txt) {
+      shareT.textContent = MDK.t(txt);
+      setTimeout(function () { shareT.textContent = MDK.t('Compartir esta página'); }, 1800);
+    };
+    shareBtn.addEventListener('click', function () {
+      var url = location.href.split('#')[0];
+      if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function () {}); return; }
+      try { navigator.clipboard.writeText(url).then(function () { flash('Enlace copiado'); }, function () { flash('No se pudo copiar'); }); }
+      catch (err) { flash('No se pudo copiar'); }
     });
   }
 
