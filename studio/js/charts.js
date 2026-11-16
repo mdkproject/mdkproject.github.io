@@ -150,7 +150,7 @@
       });
       (o.refs || []).forEach(function (r) {
         svg += '<line class="ref' + (r.strong ? ' strong' : '') + '" x1="' + pad.l + '" x2="' + (f.w - pad.r) + '" y1="' + Y(r.y) + '" y2="' + Y(r.y) + '"/>' +
-          (r.label ? '<text class="ref-label" x="' + (f.w - pad.r - 4) + '" y="' + (Y(r.y) - 6) + '" text-anchor="end">' + esc(r.label) + '</text>' : '');
+          (r.label ? '<text class="ref-label" x="' + (r.start ? pad.l + 6 : f.w - pad.r - 4) + '" y="' + (Y(r.y) - 6) + '" text-anchor="' + (r.start ? 'start' : 'end') + '">' + esc(r.label) + '</text>' : '');
       });
       var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p.x).toFixed(1) + ',' + Y(p.y).toFixed(1); }).join('');
       if (o.area !== false) {

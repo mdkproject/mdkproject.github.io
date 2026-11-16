@@ -234,6 +234,9 @@
       try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { saved = null; }
       if (saved && saved.v === 1) {
         this.state = merge(defaults(), saved);
+      } else if (KR.inClaude) {
+        /* dentro de Claude los datos llegan de tu cuenta: se arranca vacío y se llena con la nube */
+        this.state = defaults();
       } else {
         this.state = defaults();
         if (KR.seed) KR.seed(this.state);
@@ -356,7 +359,11 @@
           clearTimeout(timer);
           var empty = snaps.every(function (s) { return s.empty; });
           if (empty) {
-            return self.pushAll().then(function () { self.subscribe(); });
+            /* nube vacía: solo se sube lo que ya hayas cargado a mano en este navegador */
+            var hasLocal = COLS.some(function (c) { return store.list(c).length; });
+            if (hasLocal) return self.pushAll().then(function () { self.subscribe(); });
+            self.subscribe();
+            return;
           }
           try { localStorage.setItem(KEY + '/antes-de-sincronizar', JSON.stringify(store.state)); } catch (e) { /* sin espacio */ }
           COLS.forEach(function (c, i) {

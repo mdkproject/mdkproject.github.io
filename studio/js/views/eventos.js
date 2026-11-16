@@ -214,7 +214,7 @@
       KR.chart.line(box, {
         label: 'Resultado del evento según cuántas personas pagan entrada', height: 230, points: pts,
         xFormat: function (v, full) { return full ? Math.round(v) + ' personas' : String(Math.round(v)); }, yFormat: function (v, tick) { return tick ? KR.chart.compact(v) : KR.money(Math.round(v)); },
-        refs: [{ y: 0, label: 'Sin ganar ni perder', strong: true }].concat(model.capacity ? [] : []), markers: markers, area: false
+        refs: [{ y: 0, label: 'Sin ganar ni perder', strong: true, start: true }], markers: markers, area: false
       });
       var cap = KR.num(model.capacity, 0);
       $('#be-note').textContent = 'Con ' + KR.plural(b.att, 'entrada vendida', 'entradas vendidas') + ' el resultado es ' + KR.money(Math.round(b.result)) + '.' +
