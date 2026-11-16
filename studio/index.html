@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KTRL Room</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="El estudio de MD KTRL: agenda, beats, licencias, splits, sets, eventos, afiches y textos.">
+<meta name="theme-color" content="#131314">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KTRL Room">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/room.css">
+</head>
+<body>
+<!--app-start-->
+<a class="skip" href="#view">Ir al contenido</a>
+<div class="room">
+  <aside class="rail" id="rail" aria-label="Módulos">
+    <a class="brand" href="#inicio">
+      <span id="brand-glyph"></span>
+      <span class="brand-name">KTRL ROOM<small>Lattice Rekords</small></span>
+    </a>
+    <nav id="nav" aria-label="Módulos del estudio"></nav>
+    <div class="rail-foot">
+      <a class="nav-item" href="#ajustes" data-nav="ajustes" id="nav-settings">Ajustes</a>
+      <span id="sync-status" class="sync"></span>
+    </div>
+  </aside>
+  <div class="shade" id="shade"></div>
+  <div class="stage">
+    <header class="topbar">
+      <a href="#inicio" aria-label="Inicio"><svg class="brand-glyph" aria-hidden="true"><use href="#ic-logo"/></svg></a>
+      <span class="topbar-title">KTRL Room</span>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Accesos rápidos"></nav>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<!--app-end-->
+<!--scripts-start-->
+<script src="js/logo.js"></script>
+<script src="js/core.js"></script>
+<script src="js/music.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/dsp.js"></script>
+<script src="js/poster.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/views/inicio.js"></script>
+<script src="js/views/agenda.js"></script>
+<script src="js/views/beats.js"></script>
+<script src="js/views/analizar.js"></script>
+<script src="js/views/licencias.js"></script>
+<script src="js/views/splits.js"></script>
+<script src="js/views/set.js"></script>
+<script src="js/views/tempo.js"></script>
+<script src="js/views/eventos.js"></script>
+<script src="js/views/afiches.js"></script>
+<script src="js/views/lanzamientos.js"></script>
+<script src="js/views/textos.js"></script>
+<script src="js/views/ajustes.js"></script>
+<script>KR.boot();</script>
+<!--scripts-end-->
+</body>
+</html>
