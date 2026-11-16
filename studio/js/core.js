@@ -667,9 +667,10 @@
 
   /* cabecera de cada vista: barra sólida como los títulos de la web */
   KR.head = function (o) {
+    var backName = o.back ? (KR.views[o.back.split('-')[0]] || {}).title || 'Volver' : '';
     return '<header class="vhead">' +
+      (o.back ? '<a class="crumb" href="#' + o.back + '">' + KR.icon('back') + KR.esc(backName) + '</a>' : '') +
       '<div class="vhead-row">' +
-      (o.back ? '<a class="icon-btn back" href="#' + o.back + '" aria-label="Volver">' + KR.icon('back') + '</a>' : '') +
       '<h1 class="bar-title">' + KR.esc(o.title) + '</h1>' +
       (o.actions ? '<div class="vhead-actions">' + o.actions + '</div>' : '') +
       '</div>' +

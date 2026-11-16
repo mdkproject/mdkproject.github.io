@@ -253,7 +253,7 @@
     }
     var label = o.center || (o.active ? M.camelotStr(o.active) : '');
     svg += '<circle class="w-hub" cx="' + c + '" cy="' + c + '" r="' + (ri - 3) + '"/>' +
-      '<text class="w-center" x="' + c + '" y="' + (c + 8) + '" text-anchor="middle">' + esc(label) + '</text>' +
+      '<text class="w-center" x="' + c + '" y="' + (c + 8) + '" text-anchor="middle" style="font-size:' + (label.length <= 3 ? 30 : label.length <= 5 ? 22 : Math.max(13, Math.round(ri * 0.36))) + 'px">' + esc(label) + '</text>' +
       (o.sub ? '<text class="w-sub" x="' + c + '" y="' + (c + 24) + '" text-anchor="middle">' + esc(o.sub) + '</text>' : '') +
       '</svg>';
     return svg;
